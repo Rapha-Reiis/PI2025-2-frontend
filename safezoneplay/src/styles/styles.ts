@@ -130,7 +130,7 @@ export const globalStyles = globalCss({
     overflowWrap: 'break-word'
   },
 
-  input: {
+  'input, button': {
     border: 'none'
   }
 });

@@ -4,8 +4,9 @@ const StyledInputContainer = styled('fieldset', {
   display: 'flex',
   flexDirection: 'column',
   fontFamily: '$play',
+  marginBottom: '12px',
 
-  label: { font: '$text2', color: '$whiteFixed' },
+  label: { font: '$text2', color: '$whiteFixed', marginBottom: '4px' },
 
   input: {
     height: '3rem',
@@ -13,11 +14,14 @@ const StyledInputContainer = styled('fieldset', {
     borderRadius: '2rem',
     padding: '0 1rem',
     color: '$whiteFixed',
+    fontSize: '$text1',
+    border: '2px solid $brand3',
 
     '&:focus': {
-      color: 'black',
-      backgroundColor: '$whiteFixed',
-      outline: 'none'
+      color: '$whiteFixed',
+      backgroundColor: '$brand3',
+      outline: 'none',
+      border: '2px solid $brand4'
     }
   }
 });

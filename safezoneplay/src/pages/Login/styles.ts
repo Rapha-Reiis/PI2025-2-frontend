@@ -5,8 +5,13 @@ const StyledLoginPageContainer = styled('section', {
   minHeight: '100vh',
 
   img: {
-    height: '300px',
-    width: '300px'
+    height: 'fit-content',
+    width: 'fit-content'
+  },
+
+  '.logo-container': {
+    display: 'flex',
+    justifyContent: 'center'
   }
 });
 

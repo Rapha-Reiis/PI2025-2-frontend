@@ -7,7 +7,7 @@ const StyledInputContainer = styled('fieldset', {
   marginBottom: '12px',
   width: '100%',
 
-  label: { font: '$text2', color: '$whiteFixed', marginBottom: '4px' },
+  label: { fontSize: '$subtitle4', color: '$whiteFixed', marginBottom: '4px' },
 
   input: {
     height: '3rem',

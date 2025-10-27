@@ -2,30 +2,32 @@ import { styled } from '@stitches/react';
 import { Container } from '../../styles/Global';
 
 const StyledLoginPageContainer = styled('section', {
-  minHeight: '100vh',
-  minWidth: '100vw',
   backgroundImage: 'url("/images/backpic.png")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
 
-  '.container-login-elements': {
-    backgroundColor: "rgba(255, 255, 255, 0.05)",
-    backdropFilter: "blur(5px) saturate(200%)",
-    WebkitBackdropFilter: "blur(5px) saturate(180%)",
-    borderRadius: "12px",
-    padding: "24px",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+  '.backdrop-container': {
+    height: '100vh',
+    width: '100vw',
+    flexDirection: 'column',
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 
-  display: 'flex',
-  flexDirection: 'column',
-  alignContent: 'center',
-  justifyContent: 'center',
+  '.container-login-elements': {
+    backgroundColor: "rgba(255, 255, 255, 0.01)",
+    backdropFilter: "blur(25px) saturate(200%)",
+    WebkitBackdropFilter: "blur(25px) saturate(200%)",
+    borderRadius: "16px",
+    padding: "32px",
+    border: "1px solid rgba(255, 255, 255, 0.2)",
+  },
 
   img: {
-    height: '30%',
-    width: '30%',
+    minHeight: '40%',
+    minWidth: '40%',
     marginBottom: '32px'
   },
 
@@ -34,7 +36,16 @@ const StyledLoginPageContainer = styled('section', {
     justifyContent: 'center'
   },
 
-  form: { height: '100%', },
+  form: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    button: {
+      marginTop: '48px',
+      maxWidth: '75%'
+    }
+  },
 
   [`& ${Container}`]: {
     width: '100%',

@@ -88,13 +88,14 @@ export const globalStyles = globalCss({
   article, aside, canvas, details, embed, \
   figure, figcaption, footer, header, hgroup, \
   menu, nav, output, ruby, section, summary, \
-  time, mark, audio, video': {
+  time, mark, audio, video, input': {
     margin: 0,
     padding: 0,
     border: 0,
     fontSize: '100%',
     font: 'inherit',
-    verticalAlign: 'baseline'
+    verticalAlign: 'baseline',
+    boxSizing: 'border-box'
   },
 
   /* HTML5 display-role reset para browsers antigos */
@@ -124,7 +125,7 @@ export const globalStyles = globalCss({
     borderSpacing: 0
   },
 
-  a: { textDecoration: 'none' },
+  a: { textDecoration: 'none', color: '$whiteFixed' },
 
   'p, h1, h2, h3, h4, h5, h6': {
     overflowWrap: 'break-word'

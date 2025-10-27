@@ -9,7 +9,7 @@ interface GlobalStyleProps {
 export const Container = styled('div', {
   maxWidth: '$container',
   margin: '0 auto',
-  padding: '0 1rem'
+  padding: '0 1rem',
 });
 
 export const Flex = styled('div', {
@@ -43,7 +43,7 @@ export const GlobalStyle: React.FC<GlobalStyleProps> = ({ children }) => {
     },
 
     sizes: {
-      container: '75rem'
+      container: '75rem',
     },
 
     space: {

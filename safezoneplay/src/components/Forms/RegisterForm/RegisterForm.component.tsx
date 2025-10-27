@@ -9,7 +9,7 @@ const RegisterForm = () => {
             <Input label="Email" placeholder="email@exemplo.com.br" />
             <Input label="Senha" placeholder="Senha" />
             <Input label="Confirme a senha" placeholder="Confirme a senha" />
-            <Button type={'loginButton'}>CADASTRAR</Button>
+            <Button type={'loginButton'}>CADASTRAR</Button>f
         </form>
     )
 }

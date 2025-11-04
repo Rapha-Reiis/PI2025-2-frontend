@@ -1,57 +1,4 @@
-import { globalCss } from '@stitches/react';
-
-export const colors = {
-  color: {
-    brand1: {
-      color: '$brand1'
-    },
-    brand2: {
-      color: '$brand2'
-    },
-    brand3: {
-      color: '$brand3'
-    },
-    brand4: {
-      color: '$brand4'
-    },
-    brand5: '$brand5',
-
-    grey0: {
-      color: '$grey0'
-    },
-    grey1: {
-      color: '$grey1'
-    },
-    grey2: {
-      color: '$grey2'
-    },
-    grey3: {
-      color: '$grey3'
-    },
-    grey4: {
-      color: '$grey4'
-    },
-    grey5: {
-      color: '$grey5'
-    },
-    grey6: {
-      color: '$grey6'
-    },
-    grey7: {
-      color: '$grey7'
-    },
-    grey8: {
-      color: '$grey8'
-    },
-    grey9: {
-      color: '$grey9'
-    },
-    error: '$error',
-    alert: '$alert',
-    success: '$success',
-    whiteFixed: '$whiteFixed'
-  }
-};
+import { styled, globalCss } from '../../stitches.config';
 
 export const globalStyles = globalCss({
   '@font-face': [
@@ -75,7 +22,7 @@ export const globalStyles = globalCss({
     }
   ],
 
-  /* Reset base */
+  /* RESET */
   'html, body, div, span, applet, object, iframe, \
   h1, h2, h3, h4, h5, h6, p, blockquote, pre, \
   a, abbr, acronym, address, big, cite, code, \
@@ -117,7 +64,7 @@ export const globalStyles = globalCss({
   },
 
   'blockquote:before, blockquote:after, q:before, q:after': {
-    content: ''
+    content: "''"
   },
 
   table: {
@@ -134,4 +81,15 @@ export const globalStyles = globalCss({
   'input, button': {
     border: 'none'
   }
+});
+
+export const Container = styled('div', {
+  maxWidth: '$container',
+  margin: '0 auto',
+  padding: '0 1rem'
+});
+
+export const Flex = styled('div', {
+  display: 'flex',
+  gap: '$1'
 });

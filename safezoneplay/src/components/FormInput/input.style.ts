@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react';
+import { styled } from '../../../stitches.config';
 
 const StyledInputContainer = styled('fieldset', {
   display: 'flex',

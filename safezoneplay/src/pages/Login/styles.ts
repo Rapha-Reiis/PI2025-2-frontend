@@ -1,5 +1,5 @@
-import { styled } from '@stitches/react';
-import { Container } from '../../styles/Global';
+import { styled } from '../../../stitches.config';
+import { Container } from '../../styles/global';
 
 const StyledLoginPageContainer = styled('section', {
   backgroundImage: 'url("/images/backpic.png")',
@@ -13,16 +13,16 @@ const StyledLoginPageContainer = styled('section', {
     flexDirection: 'column',
     alignContent: 'center',
     justifyContent: 'center',
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
 
   '.container-login-elements': {
-    backgroundColor: "rgba(255, 255, 255, 0.01)",
-    backdropFilter: "blur(25px) saturate(200%)",
-    WebkitBackdropFilter: "blur(25px) saturate(200%)",
-    borderRadius: "16px",
-    padding: "32px",
-    border: "1px solid rgba(255, 255, 255, 0.2)",
+    backgroundColor: 'rgba(255, 255, 255, 0.01)',
+    backdropFilter: 'blur(25px) saturate(200%)',
+    WebkitBackdropFilter: 'blur(25px) saturate(200%)',
+    borderRadius: '16px',
+    padding: '32px',
+    border: '1px solid rgba(255, 255, 255, 0.2)'
   },
 
   img: {
@@ -53,11 +53,10 @@ const StyledLoginPageContainer = styled('section', {
   },
 
   '.container-newUser': {
-    marginTop: '16px',
+    marginTop: '16px'
   },
 
   p: {
-
     textAlign: 'center',
     color: '$whiteFixed',
     fontFamily: '$play',

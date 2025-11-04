@@ -1,6 +1,6 @@
 import StyledLoginPageContainer from './styles';
 import logo from '../../assets/sfp_logo.svg';
-import { Container } from '../../styles/Global';
+import { Container } from '../../styles/global';
 import { useParams } from 'react-router-dom';
 import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm.component';
 import LoginForm from '../../components/Forms/LoginForm/LoginForm.component';
@@ -17,33 +17,30 @@ const StartPage = () => {
               <img src={logo} alt='logo' />
             </div>
 
-            {
-              type === 'login' ?
-                (
-                  <LoginForm />
-                ) :
-                type === 'register' ?
-                  (
-                    <RegisterForm />
-                  ) :
-                  (
-                    <p>Hmmm... Parece que não já jogos por aqui!</p>
-                  )
-            }
+            {type === 'login' ? (
+              <LoginForm />
+            ) : type === 'register' ? (
+              <RegisterForm />
+            ) : (
+              <p>Hmmm... Parece que não já jogos por aqui!</p>
+            )}
           </section>
 
           <section className='container-newUser'>
             {type === 'login' ? (
-              <p>Não é usuário ainda? <a href="/start/register">Cadastre-se aqui</a></p>
+              <p>
+                Não é usuário ainda?{' '}
+                <a href='/start/register'>Cadastre-se aqui</a>
+              </p>
             ) : (
-              <p>Já é usuário? <a href="/start/login">Faça login aqui</a></p>
-            )
-            }
+              <p>
+                Já é usuário? <a href='/start/login'>Faça login aqui</a>
+              </p>
+            )}
           </section>
-        </Container >
+        </Container>
       </div>
-    </StyledLoginPageContainer >
-
+    </StyledLoginPageContainer>
   );
 };
 

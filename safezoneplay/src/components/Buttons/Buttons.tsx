@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react';
+import { styled } from '../../../stitches.config';
 
 const Button = styled('button', {
   variants: {
@@ -9,7 +9,7 @@ const Button = styled('button', {
         backgroundColor: '$brand5',
         borderRadius: '32px',
         fontFamily: '$play',
-        fontWeight: '$600',
+        fontWeight: '$semibold',
         fontSize: '1.125rem',
         cursor: 'pointer',
         display: 'flex',

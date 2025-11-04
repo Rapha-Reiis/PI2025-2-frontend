@@ -1,4 +1,4 @@
-import { styled } from '../../../stitches.config';
+import { styled } from '@styles/stitches.config';
 
 const StyledInputContainer = styled('fieldset', {
   display: 'flex',

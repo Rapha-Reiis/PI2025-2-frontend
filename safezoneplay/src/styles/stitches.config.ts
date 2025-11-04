@@ -1,5 +1,5 @@
 import { createStitches } from '@stitches/react';
-import { baseTheme } from './src/styles/theme';
+import { baseTheme } from './theme';
 
 export const { styled, globalCss } = createStitches({
   theme: baseTheme,

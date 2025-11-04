@@ -1,4 +1,4 @@
-import { styled, globalCss } from '../../stitches.config';
+import { styled, globalCss } from '@styles/stitches.config';
 
 export const globalStyles = globalCss({
   '@font-face': [

@@ -1,9 +1,9 @@
-import SearchInput from '../SearchInput/SearchInput.components';
-import logo from '../../assets/sfp_logo.svg';
-import { Container } from '../../styles/global';
-import { HeaderStyled, MenuContainer, Nav, NavItem, NavLinks } from './style';
+import SearchInput from '@components/SearchInput/SearchInput.components';
+import { Container } from '@styles/global';
 import { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { HeaderStyled, Nav, MenuContainer, NavLinks, NavItem } from './style';
+import logo from '@assets/sfp_logo.svg';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);

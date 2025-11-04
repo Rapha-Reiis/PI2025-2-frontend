@@ -1,5 +1,5 @@
-import Button from '../../Buttons/Buttons';
-import Input from '../../FormInput/input.component';
+import Button from '@components/Buttons/Buttons';
+import Input from '@components/FormInput/input.component';
 
 const RegisterForm = () => {
   return (

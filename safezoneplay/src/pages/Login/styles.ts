@@ -1,5 +1,5 @@
-import { styled } from '../../../stitches.config';
-import { Container } from '../../styles/global';
+import { Container } from '@styles/global';
+import { styled } from '@styles/stitches.config';
 
 const StyledLoginPageContainer = styled('section', {
   backgroundImage: 'url("/images/backpic.png")',

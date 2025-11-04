@@ -1,6 +1,6 @@
+import DashboardPage from '@pages/Dashboard/DashboardPage';
+import StartPage from '@pages/Login/StartPage';
 import { Routes, Route } from 'react-router-dom';
-import StartPage from '../pages/Login/StartPage';
-import DashboardPage from '../pages/Dashboard/DashboardPage';
 
 const MainRoutes = () => {
   return (

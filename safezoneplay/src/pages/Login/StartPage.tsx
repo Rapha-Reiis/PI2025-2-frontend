@@ -1,9 +1,9 @@
-import StyledLoginPageContainer from './styles';
-import logo from '../../assets/sfp_logo.svg';
-import { Container } from '../../styles/global';
+import LoginForm from '@components/Forms/LoginForm/LoginForm.component';
+import RegisterForm from '@components/Forms/RegisterForm/RegisterForm.component';
+import { Container } from '@styles/global';
 import { useParams } from 'react-router-dom';
-import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm.component';
-import LoginForm from '../../components/Forms/LoginForm/LoginForm.component';
+import StyledLoginPageContainer from './styles';
+import logo from '@assets/sfp_logo.svg';
 
 const StartPage = () => {
   const { type } = useParams();

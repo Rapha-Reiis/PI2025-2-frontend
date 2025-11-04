@@ -1,5 +1,5 @@
-import { styled } from '../../../stitches.config';
-import { fadeIn } from '../../styles/animations';
+import { fadeIn } from '@styles/animations';
+import { styled } from '@styles/stitches.config';
 
 const HeaderStyled = styled('header', {
   backgroundColor: '$brand1',

@@ -11,7 +11,7 @@ const Input = ({ label, error, ...rest }: IInput) => {
   return (
     <StyledInputContainer>
       {label ? <label className='text-input-label'>{label}</label> : null}
-      <input {...rest} />
+      <input {...rest} className={error ? 'inputErrorStyle' : ''} />
       {error ? <p className='inputErrorMessage'>{error.message}</p> : <p></p>}
     </StyledInputContainer>
   );

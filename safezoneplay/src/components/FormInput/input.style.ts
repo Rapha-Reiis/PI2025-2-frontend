@@ -9,6 +9,21 @@ const StyledInputContainer = styled('fieldset', {
 
   label: { fontSize: '$subtitle4', color: '$whiteFixed', marginBottom: '4px' },
 
+  '.inputErrorMessage': {
+    color: '$error',
+    fontWeight: '$medium',
+    fontSize: '$subtitle4'
+  },
+
+  '.inputErrorStyle': {
+    border: '2px solid $error',
+    backgroundColor: '#a74c4c55'
+  },
+
+  p: {
+    height: '12px'
+  },
+
   input: {
     height: '3rem',
     width: '100%',

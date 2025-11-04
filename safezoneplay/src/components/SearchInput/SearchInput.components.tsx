@@ -1,4 +1,4 @@
-import Input from '../FormInput/input.component';
+import Input from '@components/FormInput/Input.component';
 
 const SearchInput = () => {
   return <Input placeholder='Procurar jogos' />;

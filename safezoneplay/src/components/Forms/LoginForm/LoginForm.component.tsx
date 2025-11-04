@@ -1,31 +1,44 @@
 import Button from '@components/Buttons/Buttons';
-import Input from '@components/FormInput/input.component';
+import Input from '@components/FormInput/Input.component';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useAuth from '@hooks/useAuth';
+import type { ILoginRequest } from '@interfaces/login.interface';
+import { loginSchema } from '@schemas/login.schema';
 import { useForm } from 'react-hook-form';
 
 const LoginForm = () => {
+  const { signIn } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<DataProps>({
-    resolver: zodResolver(LoginSchema)
+  } = useForm<ILoginRequest>({
+    resolver: zodResolver(loginSchema)
   });
 
-  const formSubmit = async (data: DataProps) => {
-    const response = await LoginRequest(data);
-    if (response) {
-      setTimeout(() => {
-        navigate('/dashboard/veiculos');
-      }, 2000);
-    }
+  const formSubmit = async (data: ILoginRequest) => {
+    signIn(data);
+    console.log(data);
   };
 
   return (
-    <form action=''>
-      <Input label='Email' placeholder='user@mailexample.com' />
-      <Input label='Senha' placeholder='Sua senha' />
-      <Button type={'loginButton'}>Log in</Button>
+    <form onSubmit={handleSubmit(formSubmit)}>
+      <Input
+        label='Email'
+        placeholder='user@mailexample.com'
+        type='email'
+        {...register('email')}
+        error={errors.email}
+      />
+      <Input
+        label='Senha'
+        placeholder='Sua senha'
+        type='password'
+        {...register('password')}
+        error={errors.password}
+      />
+      <Button type={'loginButton'}>ENTRAR</Button>
     </form>
   );
 };

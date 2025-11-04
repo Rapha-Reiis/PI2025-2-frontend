@@ -1,5 +1,5 @@
 import Button from '@components/Buttons/Buttons';
-import Input from '@components/FormInput/input.component';
+import Input from '@components/FormInput/Input.component';
 
 const RegisterForm = () => {
   return (

@@ -5,7 +5,7 @@ import UserProvider from './User.provider';
 const MainProvider = ({ children }: IDefaultProviderProp) => {
   return (
     <UserProvider>
-      <AuthProvider>{children};</AuthProvider>
+      <AuthProvider>{children}</AuthProvider>
     </UserProvider>
   );
 };

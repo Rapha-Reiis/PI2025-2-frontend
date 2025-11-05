@@ -40,6 +40,20 @@ const StyledInputContainer = styled('fieldset', {
       backgroundColor: '$brand3',
       outline: 'none',
       border: '2px solid $brand4'
+    },
+
+    '&::file-selector-button': {
+      backgroundColor: '$brand3',
+      color: 'white',
+      border: 'none',
+      padding: '0.86rem',
+      borderRadius: '2rem',
+      cursor: 'pointer',
+      transition: 'background 0.2s ease',
+
+      '&:hover': {
+        backgroundColor: '#4338ca'
+      }
     }
   }
 });

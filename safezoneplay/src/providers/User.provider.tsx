@@ -1,27 +1,22 @@
-import { AuthContext } from '@contexts/Auth.context';
+import { UserContext } from '@contexts/User.context';
 import type {
   IDefaultProviderProp,
   IErrorResponse
 } from '@interfaces/providerProps.interface';
-import type {
-  ILoginRequest,
-  ILoginResponse
-} from '@interfaces/login.interface';
+import type { ICreateUser } from '@interfaces/users.interface';
 import { api } from '@services/api';
+import type { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import type { AxiosError } from 'axios';
 
-const AuthProvider = ({ children }: IDefaultProviderProp) => {
+const UserProvider = ({ children }: IDefaultProviderProp) => {
   const navigate = useNavigate();
 
-  const signIn = async (data: ILoginRequest) => {
+  const createUser = async (data: ICreateUser) => {
     try {
-      const response: ILoginResponse = await api.post('/login', data);
-      const token: string = response.token;
-      localStorage.setItem('@SafeZoneToken', token);
-      navigate('/dashboard');
-      toast.success('Seja bem vindo!');
+      await api.post('/users', data);
+      navigate('/start/login');
+      toast.success('Usuário Criado. Você já pode se logar');
     } catch (error) {
       const axiosError = error as AxiosError<IErrorResponse>;
       if (axiosError.response) {
@@ -39,8 +34,10 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
   };
 
   return (
-    <AuthContext.Provider value={{ signIn }}>{children}</AuthContext.Provider>
+    <UserContext.Provider value={{ createUser }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 
-export default AuthProvider;
+export default UserProvider;

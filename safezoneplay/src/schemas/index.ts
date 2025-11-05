@@ -1,2 +1,4 @@
 import { loginSchema } from './login.schema';
-export { loginSchema };
+import createUserSchema from './user.schema';
+
+export { loginSchema, createUserSchema };

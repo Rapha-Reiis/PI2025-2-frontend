@@ -4,4 +4,8 @@ interface IDefaultProviderProp {
   children: ReactNode;
 }
 
-export type { IDefaultProviderProp };
+interface IErrorResponse {
+  message: string;
+}
+
+export type { IDefaultProviderProp, IErrorResponse };

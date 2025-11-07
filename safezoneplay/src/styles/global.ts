@@ -85,6 +85,7 @@ export const globalStyles = globalCss({
 
 export const Container = styled('div', {
   maxWidth: '$container',
+  width: '90%',
   margin: '0 auto',
   padding: '0 1rem'
 });

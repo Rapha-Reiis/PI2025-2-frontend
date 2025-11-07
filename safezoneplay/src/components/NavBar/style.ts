@@ -2,18 +2,11 @@ import { fadeIn } from '@styles/animations';
 import { styled } from '@styles/stitches.config';
 
 const HeaderStyled = styled('header', {
-  backgroundColor: '$brand1',
-  display: 'flex',
-  flexDirection: 'column',
-
+  backgroundColor: '$brand2',
   width: '100%',
-
-  position: 'sticky',
+  padding: '32px 0',
+  borderBottom: '1px solid $brand4',
   zIndex: '1',
-
-  img: {
-    width: '120px'
-  },
 
   input: {
     maxWidth: '2'
@@ -21,14 +14,41 @@ const HeaderStyled = styled('header', {
 });
 
 const Nav = styled('nav', {
-  nav: {
-    display: 'flex'
+  width: '100%',
+
+  '.nav-container-logo': {
+    width: 'fit-content',
+    height: '6rem',
+    display: 'flex',
+    justifyContent: 'center',
+    paddingBottom: '1rem',
+
+    img: {
+      maxWidth: '640px'
+    },
+
+    '@bp1': {
+      justifyContent: 'space-between',
+      paddingBottom: 0
+    }
+  },
+
+  '@bp1': {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between'
   }
 });
 
 const MenuContainer = styled('div', {
+  width: '100%',
   cursor: 'pointer',
   backgroundColor: 'transparent',
+  display: 'flex',
+  gap: '16px',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
 
   '& svg': {
     width: '2rem',
@@ -47,16 +67,18 @@ const MenuContainer = styled('div', {
 
 const NavLinks = styled('ul', {
   display: 'none',
+  width: '100%',
   flexDirection: 'column',
   position: 'absolute',
-  top: '60px',
   right: '0',
-  backgroundColor: '#111',
-  width: '200px',
+  backgroundColor: '$brand3',
   padding: '1rem',
   listStyle: 'none',
   margin: 0,
   gap: '1.5rem',
+  borderRadius: '$rad2',
+
+  a: { fontFamily: '$play' },
 
   variants: {
     open: {
@@ -76,19 +98,38 @@ const NavLinks = styled('ul', {
     display: 'flex',
     flexDirection: 'row',
     position: 'static',
-    width: 'auto',
-    backgroundColor: 'red',
-    padding: 0
+    width: 'fit-content',
+    backgroundColor: 'transparent',
+    justifyContent: 'flex-end'
   }
 });
 
 const NavItem = styled('li', {
+  display: 'flex',
+  alignItems: 'center',
+
+  '& svg': {
+    width: '2rem',
+    height: '2rem',
+    color: '$brand5',
+    transition: 'color 0.3s',
+
+    '&:hover': {
+      color: '$brand3'
+    }
+  },
+
   '& a': {
+    width: 'max-content',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
     color: 'white',
+    fontSize: '$subtitle4',
     textDecoration: 'none',
     transition: 'color 0.3s',
     '&:hover': {
-      color: '#00bcd4'
+      color: '$brand5'
     }
   }
 });

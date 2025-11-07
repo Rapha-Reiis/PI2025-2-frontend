@@ -17,4 +17,12 @@ const Input = ({ label, error, ...rest }: IInput) => {
   );
 };
 
-export default Input;
+const SearchInput = ({ ...rest }: InputHTMLAttributes<HTMLInputElement>) => {
+  return (
+    <StyledInputContainer>
+      <input {...rest} />
+    </StyledInputContainer>
+  );
+};
+
+export { Input, SearchInput };

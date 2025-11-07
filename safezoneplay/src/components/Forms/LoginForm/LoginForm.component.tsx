@@ -1,5 +1,5 @@
 import Button from '@components/Buttons/Buttons';
-import Input from '@components/FormInput/Input.component';
+import { Input } from '@components/Input/Input.component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useAuth from '@hooks/useAuth';
 import type { ILoginRequest } from '@interfaces/login.interface';

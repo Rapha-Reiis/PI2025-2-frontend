@@ -4,7 +4,6 @@ const StyledInputContainer = styled('fieldset', {
   display: 'flex',
   flexDirection: 'column',
   fontFamily: '$play',
-  marginBottom: '12px',
   width: '100%',
 
   label: { fontSize: '$subtitle4', color: '$whiteFixed', marginBottom: '4px' },
@@ -27,13 +26,19 @@ const StyledInputContainer = styled('fieldset', {
   input: {
     height: '3rem',
     width: '100%',
-    backgroundColor: '$brand2',
+    backgroundColor: '$brand3',
     borderRadius: '2rem',
     padding: '0 1rem',
     color: '$brand4',
     fontSize: '$text1',
-    border: '1px solid $brand3',
+    border: '1px solid $brand4',
     transition: '250ms',
+
+    '&::placeholder': {
+      color: '$brand4',
+      opacity: 0.7,
+      fontStyle: 'italic'
+    },
 
     '&:focus': {
       color: '$whiteFixed',

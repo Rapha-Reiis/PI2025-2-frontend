@@ -23,7 +23,7 @@ export const baseTheme = {
   },
 
   sizes: {
-    container: '75rem'
+    container: '1920rem'
   },
 
   space: {

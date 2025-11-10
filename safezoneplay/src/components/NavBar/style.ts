@@ -4,14 +4,21 @@ import { styled } from '@styles/stitches.config';
 const HeaderStyled = styled('header', {
   backgroundColor: '$brand2',
   width: '100%',
-  padding: '32px 0',
+  height: 'fit-content',
+  padding: '8px 0',
   borderBottom: '1px solid $brand4',
-  position: 'fixed',
-  zIndex: '1',
+  position: 'sticky',
+  top: '0',
+  left: '0',
+  zIndex: '999',
 
   input: {
     maxWidth: '2'
-  }
+  },
+
+  transition: 'transform 0.2s ease, opacity 0.2s ease',
+  backfaceVisibility: 'hidden',
+  willChange: 'transform'
 });
 
 const Nav = styled('nav', {

@@ -1,5 +1,5 @@
 import { Container } from '@styles/global';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { HeaderStyled, Nav, MenuContainer, NavLinks, NavItem } from './style';
 import logo from '@assets/sfp_logo.svg';
@@ -10,9 +10,29 @@ import { MdOutlineWorkspacePremium } from 'react-icons/md';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScroll = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll > lastScroll.current && currentScroll > 50) {
+        setHidden(true);
+      } else if (currentScroll < lastScroll.current) {
+        setHidden(false);
+      }
+
+      lastScroll.current = currentScroll <= 0 ? 0 : currentScroll;
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <HeaderStyled>
+    <HeaderStyled
+      style={{ transform: hidden ? 'translateY(-100%)' : 'translateY(0)' }}
+    >
       <Container>
         <Nav>
           <div className='nav-container-logo'>

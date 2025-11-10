@@ -18,7 +18,7 @@ const Card = styled('li', {
   width: '188px',
   height: '310px',
   backgroundColor: '$brand2',
-  borderRadius: '$rad2',
+  borderRadius: '$rad3',
   padding: '8px 12px',
   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
   cursor: 'pointer',
@@ -34,7 +34,7 @@ const CardImage = styled('div', {
     width: '164px',
     height: '174px',
     objectFit: 'cover',
-    borderRadius: '$rad1'
+    borderRadius: '4px'
   },
   marginBottom: '8px'
 });
@@ -49,8 +49,16 @@ const CardInfos = styled('div', {
   },
 
   '.gameTitle': {
+    width: '100%',
     fontSize: '$subtitle3',
-    fontWeight: 'bold'
+    display: '-webkit-box',
+    WebkitLineClamp: '2',
+    WebkitBoxOrient: 'vertical',
+    fontWeight: 'bold',
+    whiteSpace: 'normal',
+    textOverflow: 'ellipsis',
+    wordBreak: 'break-word',
+    overflow: 'hidden'
   }
 });
 

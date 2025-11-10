@@ -6,6 +6,7 @@ const HeaderStyled = styled('header', {
   width: '100%',
   padding: '32px 0',
   borderBottom: '1px solid $brand4',
+  position: 'fixed',
   zIndex: '1',
 
   input: {

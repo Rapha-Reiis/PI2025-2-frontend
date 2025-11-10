@@ -52,7 +52,8 @@ export const globalStyles = globalCss({
   },
 
   body: {
-    lineHeight: 1
+    lineHeight: 1,
+    fontFamily: '$play'
   },
 
   'ol, ul': {
@@ -74,8 +75,9 @@ export const globalStyles = globalCss({
 
   a: { textDecoration: 'none', color: '$whiteFixed' },
 
-  'p, h1, h2, h3, h4, h5, h6': {
-    overflowWrap: 'break-word'
+  'small, p, h1, h2, h3, h4, h5, h6': {
+    overflowWrap: 'break-word',
+    color: '$whiteFixed'
   },
 
   'input, button': {

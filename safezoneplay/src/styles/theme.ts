@@ -23,7 +23,7 @@ export const baseTheme = {
   },
 
   sizes: {
-    container: '1920rem'
+    container: '240rem'
   },
 
   space: {
@@ -48,7 +48,7 @@ export const baseTheme = {
     subtitle1: '1.5rem', // 24px
     subtitle2: '1.375rem', // 22px
     subtitle3: '1.25rem', // 20px
-    subtitle4: '1.125rem', // 20px
+    subtitle4: '1.125rem', // 18px
 
     text1: '1rem', // 16px
     text2: '0.875rem', // 14px

@@ -7,7 +7,8 @@ const MainRoutes = () => {
     <Routes>
       <Route path='/' />
       <Route path='/start/:type' element={<StartPage />} />
-      <Route path='/dashboard' element={<DashboardPage />} />
+      <Route path='/home' element={<DashboardPage />} />
+      <Route path='/game/:id' element />
     </Routes>
   );
 };

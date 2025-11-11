@@ -5,7 +5,7 @@ import { GameCardList } from '@components/GameCard/GameCard.component';
 import { mockDB } from '@services/mock';
 import { useEffect } from 'react';
 
-const DashboardPage = () => {
+const HomePage = () => {
   useEffect(() => {});
   return (
     <StyledBody>
@@ -27,4 +27,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default HomePage;

@@ -30,6 +30,7 @@
       "@contexts/*": ["contexts/*"],
       "@hooks/*": ["hooks/*"],
       "@interfaces/*": ["interfaces/*"],
+      "@layout/*": ["layout/*"],
       "@pages/*": ["pages/*"],
       "@providers/*": ["providers/*"],
       "@routes/*": ["routes/*"],

@@ -3,13 +3,13 @@ import type {
   IDefaultProviderProp,
   IErrorResponse
 } from '@interfaces/providerProps.interface';
-import { type ICreateUser } from '@interfaces/users.interface';
+import type { ICreateUser } from '@interfaces/users.interface';
 import { api } from '@services/api';
 import type { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const UserProvider = ({ children }: IDefaultProviderProp) => {
+const GameProvider = ({ children }: IDefaultProviderProp) => {
   const navigate = useNavigate();
 
   const createUser = async (data: ICreateUser) => {
@@ -40,4 +40,4 @@ const UserProvider = ({ children }: IDefaultProviderProp) => {
   );
 };
 
-export default UserProvider;
+export default GameProvider;

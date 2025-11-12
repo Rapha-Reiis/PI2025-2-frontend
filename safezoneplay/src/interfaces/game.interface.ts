@@ -8,10 +8,6 @@ export interface PlatformInfo {
   name: string;
 }
 
-export interface PlatformWrapper {
-  platform: PlatformInfo;
-}
-
 export interface Game {
   id: number;
   slug: string;
@@ -26,7 +22,7 @@ export interface Game {
   metacritic?: number;
   playtime?: number;
   genres: Genre[];
-  platforms?: PlatformWrapper[];
+  platforms?: PlatformInfo[];
 }
 
 export interface GameApiResponse {
@@ -35,3 +31,5 @@ export interface GameApiResponse {
   previous: string | null;
   results: Game[];
 }
+
+export interface IGameContextProps {}

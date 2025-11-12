@@ -26,8 +26,25 @@ interface ICreateUserResponse {
   role: 'USER' | 'ADMIN';
 }
 
+interface IGetUserDataResponse {
+  id: string;
+  name: string;
+  email: string;
+  username: string;
+  profile_image_url: string | undefined;
+  bio: string | undefined;
+  premium: boolean;
+  role: 'USER' | 'ADMIN';
+}
+
 interface IUserContextProps {
   createUser: (data: ICreateUser) => Promise<void>;
 }
 
-export type { IUser, ICreateUser, ICreateUserResponse, IUserContextProps };
+export type {
+  IUser,
+  ICreateUser,
+  ICreateUserResponse,
+  IGetUserDataResponse,
+  IUserContextProps
+};

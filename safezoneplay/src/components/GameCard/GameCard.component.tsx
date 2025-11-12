@@ -41,7 +41,7 @@ const GameCard = ({
   const gamePlatforms = platforms?.map((platform) => {
     return (
       <li>
-        <p>· {platform.platform.name}</p>
+        <p>· {platform.name}</p>
       </li>
     );
   });

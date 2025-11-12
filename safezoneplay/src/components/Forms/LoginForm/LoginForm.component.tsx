@@ -19,7 +19,6 @@ const LoginForm = () => {
 
   const formSubmit = async (data: ILoginRequest) => {
     signIn(data);
-    console.log(data);
   };
 
   return (

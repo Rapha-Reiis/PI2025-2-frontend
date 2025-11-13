@@ -12,11 +12,7 @@ const TextArea = ({ label, error }: ITextArea) => {
     <TextAreaContainer>
       {label ? <label className='text-input-label'>{label}</label> : null}
       <TextAreaComponent className={error ? 'textAreaErrorStyle' : ''} />
-      {error ? (
-        <p className='textAreaErrorMessage'>{error.message}</p>
-      ) : (
-        <p></p>
-      )}
+      {error ? <p className='textAreaErrorMessage'>{error.message}</p> : <p></p>}
     </TextAreaContainer>
   );
 };

@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type {
-  IGameContextProps,
-  IGamesListResponse
-} from '@interfaces/game.interface';
+import type { IGameContextProps, IGamesListResponse } from '@interfaces/game.interface';
 import { createContext, type SetStateAction } from 'react';
 
 export const GameContext = createContext<IGameContextProps>({

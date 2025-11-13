@@ -10,8 +10,7 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
   const [popularGames, setPopularGames] = useState<IGamesListResponse>([]);
 
   const [gameSearchValue, setGameSearchValue] = useState('');
-  const [searchGamesResult, setSearchGamesResult] =
-    useState<IGamesListResponse>([]);
+  const [searchGamesResult, setSearchGamesResult] = useState<IGamesListResponse>([]);
 
   const getPopularGames = async () => {
     setGameLoading(true);

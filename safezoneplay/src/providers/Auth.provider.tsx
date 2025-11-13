@@ -1,8 +1,5 @@
 import { AuthContext } from '@contexts/Auth.context';
-import type {
-  IDefaultProviderProp,
-  IErrorResponse
-} from '@interfaces/providerProps.interface';
+import type { IDefaultProviderProp, IErrorResponse } from '@interfaces/providerProps.interface';
 import type { IJWTToken, ILoginRequest } from '@interfaces/login.interface';
 import { api } from '@services/api';
 import { useNavigate } from 'react-router-dom';
@@ -61,9 +58,7 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
 
   const userLogged = async (id: string) => {
     try {
-      const userDataRespose: IGetUserDataResponse = await api.get(
-        `/users/${id}`
-      );
+      const userDataRespose: IGetUserDataResponse = await api.get(`/users/${id}`);
       setUserdata(userDataRespose);
     } catch (error) {
       const axiosError = error as AxiosError<IErrorResponse>;
@@ -81,11 +76,7 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  return (
-    <AuthContext.Provider value={{ signIn, userData, setUserdata }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ signIn, userData, setUserdata }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

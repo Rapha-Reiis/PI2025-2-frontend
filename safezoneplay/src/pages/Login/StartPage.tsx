@@ -29,8 +29,7 @@ const StartPage = () => {
           <section className='container-newUser'>
             {type === 'login' ? (
               <p>
-                Não é usuário ainda?{' '}
-                <a href='/start/register'>Cadastre-se aqui</a>
+                Não é usuário ainda? <a href='/start/register'>Cadastre-se aqui</a>
               </p>
             ) : (
               <p>

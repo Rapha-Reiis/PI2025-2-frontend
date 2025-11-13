@@ -6,8 +6,7 @@ const StyledGamePageMain = styled('section', {
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'top center',
   backgroundSize: 'cover',
-  backgroundImage:
-    'linear-gradient(to bottom, rgba(10, 10, 20, 0) 0%, #0c0814 100%), var(--bg-image)',
+  backgroundImage: 'linear-gradient(to bottom, rgba(10, 10, 20, 0) 0%, #0c0814 100%), var(--bg-image)',
   transition: 'background-image 0.3s ease',
   backgroundColor: '$brand1',
   filter: 'brightness(0.45)',

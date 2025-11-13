@@ -8,8 +8,7 @@ import { useParams } from 'react-router-dom';
 const SearchResultPage = () => {
   const param = useParams();
 
-  const { gameSearchValue, handleSearchGames, gameLoading, searchGamesResult } =
-    useGames();
+  const { gameSearchValue, handleSearchGames, gameLoading, searchGamesResult } = useGames();
 
   console.log(gameSearchValue);
   useEffect(() => {

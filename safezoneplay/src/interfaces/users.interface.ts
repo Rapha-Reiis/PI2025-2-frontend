@@ -41,10 +41,4 @@ interface IUserContextProps {
   createUser: (data: ICreateUser) => Promise<void>;
 }
 
-export type {
-  IUser,
-  ICreateUser,
-  ICreateUserResponse,
-  IGetUserDataResponse,
-  IUserContextProps
-};
+export type { IUser, ICreateUser, ICreateUserResponse, IGetUserDataResponse, IUserContextProps };

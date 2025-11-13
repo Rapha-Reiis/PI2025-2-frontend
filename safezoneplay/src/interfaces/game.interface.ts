@@ -28,10 +28,7 @@ export interface Genre {
   image_background: string;
 }
 
-export type IGameCardValues = Pick<
-  Game,
-  'idGame' | 'background_image' | 'name' | 'released' | 'platforms'
->;
+export type IGameCardValues = Pick<Game, 'idGame' | 'background_image' | 'name' | 'released' | 'platforms'>;
 
 export type IGamesListResponse = Game[];
 

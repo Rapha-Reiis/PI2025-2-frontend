@@ -1,8 +1,5 @@
 import { UserContext } from '@contexts/User.context';
-import type {
-  IDefaultProviderProp,
-  IErrorResponse
-} from '@interfaces/providerProps.interface';
+import type { IDefaultProviderProp, IErrorResponse } from '@interfaces/providerProps.interface';
 import { type ICreateUser } from '@interfaces/users.interface';
 import { api } from '@services/api';
 import type { AxiosError } from 'axios';
@@ -33,11 +30,7 @@ const UserProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  return (
-    <UserContext.Provider value={{ createUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ createUser }}>{children}</UserContext.Provider>;
 };
 
 export default UserProvider;

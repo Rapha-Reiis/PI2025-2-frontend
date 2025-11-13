@@ -52,7 +52,8 @@ const CardImage = styled('div', {
     width: '168px',
     height: '174px',
     objectFit: 'cover',
-    borderRadius: '4px'
+    borderRadius: '4px',
+    objectPosition: 'top'
   }
 });
 

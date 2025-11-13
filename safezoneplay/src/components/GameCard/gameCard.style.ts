@@ -15,8 +15,8 @@ const CardsContainer = styled('ul', {
 });
 
 const Card = styled('li', {
-  width: '188px',
-  height: '310px',
+  width: '12rem',
+  height: '20rem',
   backgroundColor: '$brand2',
   borderRadius: '$rad3',
   padding: '8px 12px',

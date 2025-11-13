@@ -1,26 +1,24 @@
-import type { Game } from '@interfaces/game.interface';
+import type {
+  IGameCardValues,
+  IGamesListResponse
+} from '@interfaces/game.interface';
 import { Card, CardImage, CardInfos, CardsContainer } from './gameCard.style';
 import { useNavigate } from 'react-router-dom';
 
-interface GameCardProp {
-  gameList: Array<Game>;
+interface gameListToCards {
+  gameList: IGamesListResponse;
 }
 
-const GameCardList = ({ gameList }: GameCardProp) => {
-  const gameCards = gameList.map((gameCard) => {
-    const { id, background_image, name, released, platforms, slug, rating } =
-      gameCard;
-
+const GameCardList = ({ gameList }: gameListToCards) => {
+  const gameCards = gameList.map((game) => {
+    const { idGame, background_image, name, released, platforms } = game;
     return (
       <GameCard
-        key={id}
+        key={idGame}
+        idGame={idGame}
         background_image={background_image}
         name={name}
         released={released}
-        id={id}
-        slug={slug}
-        rating={rating}
-        genres={[]}
         platforms={platforms}
       />
     );
@@ -33,28 +31,33 @@ const GameCard = ({
   background_image,
   name,
   released,
-  id,
+  idGame,
   platforms
-}: Game) => {
+}: IGameCardValues) => {
   const navigate = useNavigate();
-
-  const gamePlatforms = platforms?.map((platform) => {
-    return (
-      <li>
-        <p>· {platform.name}</p>
-      </li>
-    );
-  });
+  const shownPlatforms = platforms.slice(0, 2);
+  const extraCount = platforms.length - shownPlatforms.length;
 
   return (
-    <Card key={id} onClick={() => navigate(`/game/${id}`)}>
+    <Card key={idGame} onClick={() => navigate(`/game/${idGame}`)}>
       <CardImage>
         <img src={background_image} alt={`${name} image`} />
       </CardImage>
       <CardInfos>
         <p className='gameTitle'>{name}</p>
         <small className='gameRelease'>{released}</small>
-        <ul className='game-platforms'>{gamePlatforms}</ul>
+        <ul className='game-platforms'>
+          {shownPlatforms.map((platform) => (
+            <li key={platform.id}>
+              <p>· {platform.name}</p>
+            </li>
+          ))}
+          {extraCount > 0 && (
+            <li>
+              <small>· + {extraCount} plataforma(s)</small>
+            </li>
+          )}
+        </ul>
       </CardInfos>
     </Card>
   );

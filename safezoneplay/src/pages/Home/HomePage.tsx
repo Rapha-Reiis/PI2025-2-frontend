@@ -1,21 +1,33 @@
 import { Container } from '@styles/global';
 import { GameCardList } from '@components/GameCard/GameCard.component';
-import { mockDB } from '@services/mock';
 import { StyledMain } from './styles.homePage';
+import { useEffect } from 'react';
+import useGames from '@hooks/useGames';
 
 const HomePage = () => {
+  const { popularGames, gameLoading, getPopularGames } = useGames();
+  console.log(popularGames);
+
+  useEffect(() => {
+    getPopularGames();
+  }, []);
+
   return (
     <StyledMain>
       <Container>
-        <section id='cardlist-myGames'>
-          <h2>Meus Jogos</h2>
-          <GameCardList gameList={mockDB.results} />
-        </section>
+        {gameLoading ? (
+          <p>Carregando</p>
+        ) : (
+          <section id='cardlist-myGames'>
+            <h2>Meus Jogos</h2>
+            <GameCardList gameList={popularGames} />
+          </section>
+        )}
 
-        <section id='cardList-popularGames'>
+        {/* <section id='cardList-popularGames'>
           <h2>Jogos Populares</h2>
-          <GameCardList gameList={mockDB.results} />
-        </section>
+          <GameCardList gameList={popularGames} />
+        </section> */}
       </Container>
     </StyledMain>
   );

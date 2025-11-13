@@ -3,15 +3,29 @@ import { styled } from '@styles/stitches.config';
 const CardsContainer = styled('ul', {
   display: 'flex',
   gap: '16px',
-  overflowX: 'auto',
   padding: '1rem',
-
   '&::-webkit-scrollbar': {
     height: '16px'
   },
 
   scrollbarColor: '#BAB195 #11091A',
-  scrollbarWidth: 'thin'
+  scrollbarWidth: 'thin',
+
+  variants: {
+    direction: {
+      line: {
+        overflowX: 'auto'
+      },
+      grid: {
+        overflowX: 'unset',
+        flexWrap: 'wrap'
+      }
+    }
+  },
+
+  defaultVariants: {
+    direction: 'row'
+  }
 });
 
 const Card = styled('li', {
@@ -19,7 +33,7 @@ const Card = styled('li', {
   height: '20rem',
   backgroundColor: '$brand2',
   borderRadius: '$rad3',
-  padding: '8px 12px',
+  padding: '12px',
   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
   cursor: 'pointer',
 
@@ -30,13 +44,16 @@ const Card = styled('li', {
 });
 
 const CardImage = styled('div', {
+  marginBottom: '8px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
   img: {
-    width: '164px',
+    width: '168px',
     height: '174px',
     objectFit: 'cover',
     borderRadius: '4px'
-  },
-  marginBottom: '8px'
+  }
 });
 
 const CardInfos = styled('div', {

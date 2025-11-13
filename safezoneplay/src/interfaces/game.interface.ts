@@ -40,4 +40,8 @@ export interface IGameContextProps {
   setGameLoading: React.Dispatch<React.SetStateAction<boolean>>;
   getPopularGames: () => Promise<void>;
   popularGames: IGamesListResponse;
+  handleSearchGames: (gameName: string) => Promise<void>;
+  gameSearchValue: string;
+  setGameSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  searchGamesResult: IGamesListResponse;
 }

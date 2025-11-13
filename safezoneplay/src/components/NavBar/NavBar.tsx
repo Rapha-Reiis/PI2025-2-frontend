@@ -7,8 +7,12 @@ import { SearchInput } from '@components/Input/Input.component';
 import { GrGamepad, GrHomeRounded } from 'react-icons/gr';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineWorkspacePremium } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import useGames from '@hooks/useGames';
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const { gameSearchValue, setGameSearchValue } = useGames();
   const [isOpen, setIsOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScroll = useRef(0);
@@ -39,11 +43,20 @@ const NavBar = () => {
             <img src={logo} alt='sfc_logo' />
           </div>
           <MenuContainer>
-            <SearchInput
-              type='text'
-              id='searchInput'
-              placeholder='O que você está jogando hoje?'
-            />
+            <form
+              onSubmit={() => {
+                navigate(`/search/${gameSearchValue}`);
+              }}
+            >
+              <SearchInput
+                type='text'
+                id='searchInput'
+                placeholder='O que você está jogando hoje?'
+                onChange={(event) => {
+                  setGameSearchValue(event.target.value);
+                }}
+              />
+            </form>
             <GiHamburgerMenu
               onClick={() => {
                 setIsOpen(!isOpen);
@@ -53,7 +66,7 @@ const NavBar = () => {
 
           <NavLinks open={isOpen}>
             <NavItem>
-              <a href='#home'>{<GrHomeRounded />}Home</a>
+              <a href='/home'>{<GrHomeRounded />}Home</a>
             </NavItem>
             <NavItem>
               <a href='#about'>{<GrGamepad />}Meus Jogos</a>

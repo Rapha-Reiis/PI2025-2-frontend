@@ -19,8 +19,8 @@ const HomePage = () => {
           <p>Carregando</p>
         ) : (
           <section id='cardlist-myGames'>
-            <h2>Meus Jogos</h2>
-            <GameCardList gameList={popularGames} />
+            <h2>Jogos Populares</h2>
+            <GameCardList gameList={popularGames} direction='line' />
           </section>
         )}
 

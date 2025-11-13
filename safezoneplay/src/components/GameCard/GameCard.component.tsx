@@ -7,9 +7,10 @@ import { useNavigate } from 'react-router-dom';
 
 interface gameListToCards {
   gameList: IGamesListResponse;
+  direction: 'line' | 'grid';
 }
 
-const GameCardList = ({ gameList }: gameListToCards) => {
+const GameCardList = ({ gameList, direction }: gameListToCards) => {
   const gameCards = gameList.map((game) => {
     const { idGame, background_image, name, released, platforms } = game;
     return (
@@ -24,7 +25,7 @@ const GameCardList = ({ gameList }: gameListToCards) => {
     );
   });
 
-  return <CardsContainer>{gameCards}</CardsContainer>;
+  return <CardsContainer direction={direction}>{gameCards}</CardsContainer>;
 };
 
 const GameCard = ({

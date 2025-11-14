@@ -32,11 +32,6 @@ const SearchResultPage = () => {
             </Container>
           </section>
         )}
-
-        {/* <section id='cardList-popularGames'>
-          <h2>Jogos Populares</h2>
-          <GameCardList gameList={popularGames} />
-        </section> */}
       </Container>
     </StyledMain>
   );

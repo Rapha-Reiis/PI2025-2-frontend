@@ -33,7 +33,7 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
 
     try {
-      const searchResponse = await api.get(`/games?search=${searchValues}&pageSize=${5}&page=${page}`);
+      const searchResponse = await api.get(`/games?search=${searchValues}&pageSize=${7}&page=${page}`);
 
       setSearchGamesResult((prev) => (page === 1 ? searchResponse.data : [...prev, ...searchResponse.data]));
     } catch (error) {

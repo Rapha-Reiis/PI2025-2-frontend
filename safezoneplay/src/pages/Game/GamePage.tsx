@@ -18,12 +18,15 @@ import { MdOutlineCollectionsBookmark, MdOutlinePlaylistAdd } from 'react-icons/
 import { BiJoystickAlt } from 'react-icons/bi';
 import { TbEdit } from 'react-icons/tb';
 import { FaRegStar } from 'react-icons/fa';
+import { Loading } from '@components/Loading/Loading.component';
 
 const GamePage = () => {
   const param = useParams();
-  const { getGamesByID, gameByID, gameLoading } = useGames();
+  const { getGamesByID, gameByID, gameLoading, setGameLoading } = useGames();
 
   useEffect(() => {
+    gameByID.background_image = '';
+
     if (param.id) {
       getGamesByID(param.id);
     }
@@ -37,7 +40,7 @@ const GamePage = () => {
     >
       <Container>
         {gameLoading ? (
-          <p>Carregando</p>
+          <Loading />
         ) : (
           <StyledGameContainer>
             <StyledGameDetailsContainer>
@@ -91,8 +94,13 @@ const GamePage = () => {
                 <div className='column'>
                   <div>
                     <p className='minorDetails-title'>Lançamento: </p>
-                    <p>{gameByID.released}</p>
-                    {gameByID.playtime != 0 && <p>Tempo de jogo: {gameByID.playtime} horas</p>}
+                    <p>{gameByID.released?.split('-').reverse().join('/')}</p>
+
+                    {/* 
+                    Comentei porque muitos jogos não tem tempo de jogo ou vem com tempos totalmente errados.
+                    
+                    {gameByID.playtime != 0 && <p>Tempo de jogo: {gameByID.playtime} horas</p>} 
+                    */}
                   </div>
                 </div>
 

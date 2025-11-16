@@ -6,7 +6,7 @@ const StyledGamePageMain = styled('section', {
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
   backgroundSize: 'cover',
-  backgroundImage: 'linear-gradient(to bottom, rgba(10, 10, 20, 0) 0%, #0c0814 60%), var(--bg-image)',
+  backgroundImage: 'linear-gradient(to bottom, rgba(10, 10, 20, 0) 0%, #0c0814 30%), var(--bg-image)',
   transition: 'background-image 0.3s ease',
   backgroundColor: '$brand1',
   filter: 'brightness(1)'
@@ -19,7 +19,8 @@ const StyledGameDetailsContainer = styled('section', {
 
 const StyledGameContainer = styled('div', {
   paddingTop: '10rem',
-  display: 'flex'
+  display: 'flex',
+  gap: '2rem'
 });
 
 const StyledGameTitle = styled('div', {
@@ -47,7 +48,7 @@ const GameGallery = styled('div', {
 
   img: {
     width: '32%',
-    height: '300px',
+    height: '50%',
     borderRadius: '8px'
   }
 });
@@ -77,13 +78,17 @@ const GameAsideCard = styled('div', {
   height: 'fit-content',
   backgroundColor: '$brand2',
   borderRadius: '$rad1',
+  maxWidth: '20%',
   position: 'sticky',
+  top: '10rem',
+  marginBottom: '1rem',
 
   p: { color: '$whiteFixed' },
 
   img: {
-    width: '328px',
-    height: '438px',
+    maxWidth: '100%',
+    width: '300px',
+    height: '300px',
     borderRadius: '8px',
     objectFit: 'cover'
   },

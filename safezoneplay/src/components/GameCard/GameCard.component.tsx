@@ -27,7 +27,7 @@ const GameCardList = ({ gameList, direction }: gameListToCards) => {
 
 const GameCard = ({ background_image, name, released, idGame, platforms }: IGameCardValues) => {
   const navigate = useNavigate();
-  const shownPlatforms = platforms.slice(0, 2);
+  const shownPlatforms = platforms?.slice(0, 2);
   const extraCount = platforms.length - shownPlatforms.length;
 
   return (

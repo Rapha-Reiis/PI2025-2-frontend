@@ -9,6 +9,12 @@ const Button = styled('button', {
   fontSize: '1.125rem',
   transition: '250ms',
 
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  cursor: 'pointer',
+
   '&:hover': {
     backgroundColor: '$brand4'
   },
@@ -16,17 +22,14 @@ const Button = styled('button', {
     type: {
       loginButton: {
         width: '100%',
-        cursor: 'pointer',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
 
         '&:hover': {
           backgroundColor: '$brand4'
         }
       },
       moreResultsButton: {
-        width: '10rem'
+        width: 'fit-content',
+        padding: '2rem'
       }
     }
   }

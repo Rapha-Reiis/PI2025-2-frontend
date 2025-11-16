@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Container } from '@styles/global';
 import {
   GameAsideCard,
@@ -22,10 +23,11 @@ import { Loading } from '@components/Loading/Loading.component';
 
 const GamePage = () => {
   const param = useParams();
-  const { getGamesByID, gameByID, gameLoading, setGameLoading } = useGames();
+  const { getGamesByID, gameByID, gameLoading } = useGames();
 
   useEffect(() => {
     gameByID.background_image = '';
+    window.scrollTo(0, 0);
 
     if (param.id) {
       getGamesByID(param.id);

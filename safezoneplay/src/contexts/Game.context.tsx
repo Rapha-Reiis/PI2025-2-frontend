@@ -16,7 +16,8 @@ export const GameContext = createContext<IGameContextProps>({
   },
 
   gameByID: {} as IGameByIDResponse,
-  handleSearchGames: function (gameName: string): Promise<void> {
+
+  handleSearchGames: function (_searchValues: string, _page: number): Promise<void> {
     throw new Error('Function not implemented.');
   },
 
@@ -27,7 +28,12 @@ export const GameContext = createContext<IGameContextProps>({
   getGamesByID: function (_gameID: string): Promise<void> {
     throw new Error('Function not implemented.');
   },
-  setGameSearchValue: function (value: SetStateAction<string>): void {
+
+  setGameSearchValue: function (_value: SetStateAction<string>): void {
+    throw new Error('Function not implemented.');
+  },
+
+  setGameByID: function (_value: SetStateAction<IGameByIDResponse>): void {
     throw new Error('Function not implemented.');
   }
 });

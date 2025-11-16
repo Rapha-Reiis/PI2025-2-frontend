@@ -25,11 +25,17 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const handleSearchGames = async (searchValues: string) => {
-    setGameLoading(true);
+  const handleSearchGames = async (searchValues: string, page: number) => {
+    if (page === 1) {
+      setGameLoading(true);
+    } else {
+      setGameLoading(false);
+    }
+
     try {
-      const searchResponse = await api.get(`/games?search=${searchValues}`);
-      setSearchGamesResult(searchResponse.data);
+      const searchResponse = await api.get(`/games?search=${searchValues}&pageSize=${5}&page=${page}`);
+
+      setSearchGamesResult((prev) => (page === 1 ? searchResponse.data : [...prev, ...searchResponse.data]));
     } catch (error) {
       handleAxiosErrors(error);
     } finally {
@@ -61,7 +67,8 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
         setGameSearchValue,
         searchGamesResult,
         getGamesByID,
-        gameByID
+        gameByID,
+        setGameByID
       }}
     >
       {children}

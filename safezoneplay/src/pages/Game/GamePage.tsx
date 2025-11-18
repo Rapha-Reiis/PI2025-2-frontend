@@ -13,20 +13,18 @@ import {
 import useGames from '@hooks/useGames';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { gameresponse } from './gamebyiddata';
 import parseHtmlToText from '@utils/parseHtmlToText';
-import { MdOutlineCollectionsBookmark, MdOutlinePlaylistAdd } from 'react-icons/md';
-import { BiJoystickAlt } from 'react-icons/bi';
-import { TbEdit } from 'react-icons/tb';
-import { FaRegStar } from 'react-icons/fa';
 import { Loading } from '@components/Loading/Loading.component';
+import { FaRegCircleCheck, FaRegCircleXmark } from 'react-icons/fa6';
+import { IoGameControllerOutline } from 'react-icons/io5';
+import { RiBookShelfLine } from 'react-icons/ri';
 
 const GamePage = () => {
   const param = useParams();
   const { getGamesByID, gameByID, gameLoading } = useGames();
 
   useEffect(() => {
-    gameByID.background_image = '';
+    gameByID.background_image = ''; //Para prevenir que o fundo do jogo aberto anteriormente apareca quando se abre um novo jogo.
     window.scrollTo(0, 0);
 
     if (param.id) {
@@ -54,7 +52,7 @@ const GamePage = () => {
               </GameDescription>
               <GameGallery>
                 {gameByID.screen_shots?.map((image) => {
-                  return <img src={`${image.image}`} />;
+                  return <img src={`${image.image}`} key={image.id} />;
                 })}
               </GameGallery>
               <GameInfos>
@@ -63,7 +61,7 @@ const GamePage = () => {
                     <p className='minorDetails-title'>Gêneros:</p>
                     <ul>
                       {gameByID.genres?.map((genre) => (
-                        <li>
+                        <li key={genre.id}>
                           <p>{genre.name}</p>
                         </li>
                       ))}
@@ -74,7 +72,7 @@ const GamePage = () => {
                     <p className='minorDetails-title'>Desenvolvedores:</p>
                     <ul>
                       {gameByID.developers?.map((developer) => (
-                        <li>
+                        <li key={developer.id}>
                           <p>{developer.name}</p>
                         </li>
                       ))}
@@ -85,7 +83,7 @@ const GamePage = () => {
                     <p className='minorDetails-title'>Editora:</p>
                     <ul>
                       {gameByID.publishers?.map((publisher) => (
-                        <li>
+                        <li key={publisher.id}>
                           <p>{publisher.name}</p>
                         </li>
                       ))}
@@ -111,7 +109,7 @@ const GamePage = () => {
                     <p className='minorDetails-title'>Plataformas:</p>
                     <ul>
                       {gameByID.paltforms?.map((platform) => (
-                        <li>
+                        <li key={platform.id}>
                           <p>{platform.name}</p>
                         </li>
                       ))}
@@ -123,10 +121,10 @@ const GamePage = () => {
                   <div>
                     <p className='minorDetails-title'>Links</p>
                     <ul>
-                      <li>
+                      <li key={'webSite'}>
                         <a href={gameByID.website}>Site Oficial</a>
                       </li>
-                      <li>
+                      <li key={'reddit'}>
                         <a href={gameByID.reddit_url}>Reddit</a>
                       </li>
                     </ul>
@@ -137,26 +135,40 @@ const GamePage = () => {
             <GameAsideCard>
               <img src={gameByID.background_image} />
               <ul>
-                <li>
+                {/* <li key={'addToList'}>
                   <FaRegStar />
                   <p>Adicionar à lista</p>
-                </li>
-                <li>
-                  <MdOutlineCollectionsBookmark />
+                </li> */}
+
+                <li key={'addToBacklog'}>
+                  <RiBookShelfLine />
                   <p>Backlog</p>
                 </li>
-                <li>
-                  <BiJoystickAlt />
+
+                <li key={'playing'}>
+                  <IoGameControllerOutline />
+                  <p>Jogando</p>
+                </li>
+
+                <li key={'addToFinished'}>
+                  <FaRegCircleCheck />
                   <p>Finalizado</p>
                 </li>
-                <li>
+
+                <li key={'abandoned'}>
+                  <FaRegCircleXmark />
+                  <p>Abandonado</p>
+                </li>
+
+                {/* <li key={''}>
                   <MdOutlinePlaylistAdd />
                   <p>Lista</p>
-                </li>
-                <li>
+                </li> */}
+
+                {/* <li key={'rateGame'}>
                   <TbEdit />
                   <p>Avaliar</p>
-                </li>
+                </li> */}
               </ul>
             </GameAsideCard>
           </StyledGameContainer>

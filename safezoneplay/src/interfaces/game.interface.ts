@@ -99,6 +99,39 @@ export interface IGameByIDResponse {
   }[];
 }
 
+export interface IUserGamesResponse {
+  data: {
+    id: string;
+    userId: string;
+    gameId: number;
+    status: 'BACKLOG' | 'PLAYING' | 'COMPLETED' | 'DROPPED'; // ajuste se necessário
+    note: string | null;
+    created_at: string;
+    updated_at: string;
+    game: {
+      idGame: number;
+      name: string;
+      slug: string;
+      description: string;
+      metacritic: number;
+      released: string;
+      background_image: string;
+      website: string;
+      platforms: {
+        id: number;
+        name: string;
+      }[];
+      genres: {
+        id: number;
+        name: string;
+      }[][];
+    };
+  }[];
+  totalGames: number;
+  totalPage: number;
+  currentPage: number;
+}
+
 export interface IGameContextProps {
   gameLoading: boolean;
   setGameLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -111,4 +144,5 @@ export interface IGameContextProps {
   getGamesByID: (gameID: string) => Promise<void>;
   gameByID: IGameByIDResponse;
   setGameByID: React.Dispatch<React.SetStateAction<IGameByIDResponse>>;
+  getUserGames: (userID: string) => Promise<void>;
 }

@@ -35,5 +35,9 @@ export const GameContext = createContext<IGameContextProps>({
 
   setGameByID: function (_value: SetStateAction<IGameByIDResponse>): void {
     throw new Error('Function not implemented.');
+  },
+
+  getUserGames: function (_userID: string): Promise<void> {
+    throw new Error('Function not implemented.');
   }
 });

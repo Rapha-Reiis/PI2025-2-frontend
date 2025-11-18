@@ -4,12 +4,12 @@ import { styled } from '@styles/stitches.config';
 const StyledLoginPageContainer = styled('section', {
   backgroundImage: 'url("/images/backpic.png")',
   backgroundSize: 'cover',
-  backgroundPosition: 'center',
+  backgroundPosition: 'top',
   backgroundRepeat: 'no-repeat',
 
   '.backdrop-container': {
-    height: '100vh',
-    width: '100vw',
+    minHeight: '100vh',
+    minWidth: '100vw',
     flexDirection: 'column',
     alignContent: 'center',
     justifyContent: 'center',

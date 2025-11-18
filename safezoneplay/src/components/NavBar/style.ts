@@ -128,8 +128,8 @@ const NavItem = styled('li', {
   alignItems: 'center',
 
   '& svg': {
-    width: '1rem',
-    height: '1rem',
+    width: '20px',
+    height: '20px',
     color: '$brand5',
     transition: 'color 0.3s',
 

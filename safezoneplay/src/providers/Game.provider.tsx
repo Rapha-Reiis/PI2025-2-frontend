@@ -1,5 +1,5 @@
 import { GameContext } from '@contexts/Game.context';
-import type { IGameByIDResponse, IGamesListResponse } from '@interfaces/game.interface';
+import type { IGameByIDResponse, IGamesListResponse, IUserGamesResponse } from '@interfaces/game.interface';
 import type { IDefaultProviderProp } from '@interfaces/providerProps.interface';
 import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
@@ -55,6 +55,18 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
+  const getUserGames = async (userID: string) => {
+    setGameLoading(true);
+    try {
+      const userGameResponse: IUserGamesResponse = await api.get(`/profile/?id=${userID}`);
+      console.log(userGameResponse);
+    } catch (error) {
+      handleAxiosErrors(error);
+    } finally {
+      setGameLoading(false);
+    }
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -68,7 +80,8 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
         searchGamesResult,
         getGamesByID,
         gameByID,
-        setGameByID
+        setGameByID,
+        getUserGames
       }}
     >
       {children}

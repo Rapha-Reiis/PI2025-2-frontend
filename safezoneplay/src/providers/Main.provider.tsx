@@ -5,11 +5,11 @@ import GameProvider from './Game.provider';
 
 const MainProvider = ({ children }: IDefaultProviderProp) => {
   return (
-    <UserProvider>
-      <GameProvider>
-        <AuthProvider>{children}</AuthProvider>
-      </GameProvider>
-    </UserProvider>
+    <AuthProvider>
+      <UserProvider>
+        <GameProvider>{children}</GameProvider>
+      </UserProvider>
+    </AuthProvider>
   );
 };
 

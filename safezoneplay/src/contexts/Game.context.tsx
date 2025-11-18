@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type {
-  IGameContextProps,
-  IGamesListResponse
-} from '@interfaces/game.interface';
+import type { IGameByIDResponse, IGameContextProps } from '@interfaces/game.interface';
 import { createContext, type SetStateAction } from 'react';
 
 export const GameContext = createContext<IGameContextProps>({
@@ -18,15 +15,29 @@ export const GameContext = createContext<IGameContextProps>({
     throw new Error('Function not implemented.');
   },
 
-  handleSearchGames: function (_gameName: string): Promise<void> {
+  gameByID: {} as IGameByIDResponse,
+
+  handleSearchGames: function (_searchValues: string, _page: number): Promise<void> {
     throw new Error('Function not implemented.');
   },
 
   gameSearchValue: '',
 
-  setGameSearchValue: function (value: SetStateAction<string>): void {
+  searchGamesResult: [],
+
+  getGamesByID: function (_gameID: string): Promise<void> {
     throw new Error('Function not implemented.');
   },
 
-  searchGamesResult: []
+  setGameSearchValue: function (_value: SetStateAction<string>): void {
+    throw new Error('Function not implemented.');
+  },
+
+  setGameByID: function (_value: SetStateAction<IGameByIDResponse>): void {
+    throw new Error('Function not implemented.');
+  },
+
+  getUserGames: function (_userID: string): Promise<void> {
+    throw new Error('Function not implemented.');
+  }
 });

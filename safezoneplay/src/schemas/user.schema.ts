@@ -12,10 +12,7 @@ const createUserSchema = z
       .any()
       .optional()
       .transform((val) => (val instanceof File ? val : undefined))
-      .refine(
-        (file) => !file || ['image/jpeg', 'image/png'].includes(file.type),
-        'Apenas JPEG ou PNG são permitidos'
-      )
+      .refine((file) => !file || ['image/jpeg', 'image/png'].includes(file.type), 'Apenas JPEG ou PNG são permitidos')
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'As senhas não coincidem',

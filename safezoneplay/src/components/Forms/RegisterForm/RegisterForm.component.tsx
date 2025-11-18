@@ -25,13 +25,7 @@ const RegisterForm = () => {
   };
   return (
     <form onSubmit={handleSubmit(formSubmit)}>
-      <Input
-        label='Nome *'
-        placeholder='Seu nome'
-        type='text'
-        {...register('name')}
-        error={errors.name}
-      />
+      <Input label='Nome *' placeholder='Seu nome' type='text' {...register('name')} error={errors.name} />
       <Input
         label='Username *'
         placeholder='Seu SZ username'
@@ -59,13 +53,7 @@ const RegisterForm = () => {
           />
         )}
       />
-      <Input
-        label='Senha *'
-        placeholder='Senha'
-        type='password'
-        {...register('password')}
-        error={errors.password}
-      />
+      <Input label='Senha *' placeholder='Senha' type='password' {...register('password')} error={errors.password} />
       <Input
         label='Confirme a senha'
         placeholder='Confirme a senha'

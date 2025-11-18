@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type {
-  ICreateUser,
-  IUserContextProps
-} from '@interfaces/users.interface';
+import type { ICreateUser, IUserContextProps } from '@interfaces/users.interface';
 import { createContext } from 'react';
 
 export const UserContext = createContext<IUserContextProps>({

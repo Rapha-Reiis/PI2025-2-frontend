@@ -3,6 +3,7 @@ import { GameCardList } from '@components/GameCard/GameCard.component';
 import { StyledMain } from './styles.homePage';
 import { useEffect } from 'react';
 import useGames from '@hooks/useGames';
+import { Loading } from '@components/Loading/Loading.component';
 
 const HomePage = () => {
   const { popularGames, gameLoading, getPopularGames } = useGames();
@@ -15,14 +16,10 @@ const HomePage = () => {
   return (
     <StyledMain>
       <Container>
-        {gameLoading ? (
-          <p>Carregando</p>
-        ) : (
-          <section id='cardlist-myGames'>
-            <h2>Jogos Populares</h2>
-            <GameCardList gameList={popularGames} direction='line' />
-          </section>
-        )}
+        <section id='cardlist-myGames'>
+          <h2>Jogos Populares</h2>
+          {gameLoading ? <Loading /> : <GameCardList gameList={popularGames} direction='line' />}
+        </section>
 
         {/* <section id='cardList-popularGames'>
           <h2>Jogos Populares</h2>

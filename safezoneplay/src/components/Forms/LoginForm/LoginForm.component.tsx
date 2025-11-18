@@ -30,13 +30,7 @@ const LoginForm = () => {
         {...register('email')}
         error={errors.email}
       />
-      <Input
-        label='Senha'
-        placeholder='Sua senha'
-        type='password'
-        {...register('password')}
-        error={errors.password}
-      />
+      <Input label='Senha' placeholder='Sua senha' type='password' {...register('password')} error={errors.password} />
       <Button type={'loginButton'}>ENTRAR</Button>
     </form>
   );

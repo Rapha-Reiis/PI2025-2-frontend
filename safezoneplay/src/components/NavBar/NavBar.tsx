@@ -34,9 +34,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <HeaderStyled
-      style={{ transform: hidden ? 'translateY(-100%)' : 'translateY(0)' }}
-    >
+    <HeaderStyled style={{ transform: hidden ? 'translateY(-100%)' : 'translateY(0)' }}>
       <Container>
         <Nav>
           <div className='nav-container-logo'>

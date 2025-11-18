@@ -1,5 +1,5 @@
 import { GameContext } from '@contexts/Game.context';
-import type { IGamesListResponse } from '@interfaces/game.interface';
+import type { IGameByIDResponse, IGamesListResponse, IUserGamesResponse } from '@interfaces/game.interface';
 import type { IDefaultProviderProp } from '@interfaces/providerProps.interface';
 import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
@@ -10,8 +10,8 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
   const [popularGames, setPopularGames] = useState<IGamesListResponse>([]);
 
   const [gameSearchValue, setGameSearchValue] = useState('');
-  const [searchGamesResult, setSearchGamesResult] =
-    useState<IGamesListResponse>([]);
+  const [searchGamesResult, setSearchGamesResult] = useState<IGamesListResponse>([]);
+  const [gameByID, setGameByID] = useState<IGameByIDResponse>({} as IGameByIDResponse);
 
   const getPopularGames = async () => {
     setGameLoading(true);
@@ -25,13 +25,41 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const handleSearchGames = async (searchValues: string) => {
+  const handleSearchGames = async (searchValues: string, page: number) => {
+    if (page === 1) {
+      setGameLoading(true);
+    } else {
+      setGameLoading(false);
+    }
+
+    try {
+      const searchResponse = await api.get(`/games?search=${searchValues}&pageSize=${7}&page=${page}`);
+
+      setSearchGamesResult((prev) => (page === 1 ? searchResponse.data : [...prev, ...searchResponse.data]));
+    } catch (error) {
+      handleAxiosErrors(error);
+    } finally {
+      setGameLoading(false);
+    }
+  };
+
+  const getGamesByID = async (gameID: string) => {
     setGameLoading(true);
     try {
-      console.log(gameSearchValue);
-      const searchResponse = await api.get(`/games?search=${searchValues}`);
-      setSearchGamesResult(searchResponse.data);
-      console.log(searchResponse);
+      const searchResponse = await api.get(`/games/${gameID}`);
+      setGameByID(searchResponse.data);
+    } catch (error) {
+      handleAxiosErrors(error);
+    } finally {
+      setGameLoading(false);
+    }
+  };
+
+  const getUserGames = async (userID: string) => {
+    setGameLoading(true);
+    try {
+      const userGameResponse: IUserGamesResponse = await api.get(`/profile/?id=${userID}`);
+      console.log(userGameResponse);
     } catch (error) {
       handleAxiosErrors(error);
     } finally {
@@ -49,7 +77,11 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
         handleSearchGames,
         gameSearchValue,
         setGameSearchValue,
-        searchGamesResult
+        searchGamesResult,
+        getGamesByID,
+        gameByID,
+        setGameByID,
+        getUserGames
       }}
     >
       {children}

@@ -32,7 +32,7 @@ const Nav = styled('nav', {
     paddingBottom: '1rem',
 
     img: {
-      maxWidth: '640px'
+      maxWidth: '100%'
     },
 
     '@bp1': {
@@ -128,8 +128,8 @@ const NavItem = styled('li', {
   alignItems: 'center',
 
   '& svg': {
-    width: '2rem',
-    height: '2rem',
+    width: '20px',
+    height: '20px',
     color: '$brand5',
     transition: 'color 0.3s',
 
@@ -144,7 +144,7 @@ const NavItem = styled('li', {
     alignItems: 'center',
     gap: '0.5rem',
     color: 'white',
-    fontSize: '$subtitle4',
+    fontSize: '$text1',
     textDecoration: 'none',
     transition: 'color 0.3s',
     '&:hover': {

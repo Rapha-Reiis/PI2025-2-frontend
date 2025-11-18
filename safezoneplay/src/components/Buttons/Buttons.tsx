@@ -1,24 +1,35 @@
 import { styled } from '@styles/stitches.config';
 
 const Button = styled('button', {
+  height: '3rem',
+  backgroundColor: '$brand5',
+  borderRadius: '32px',
+  fontFamily: '$play',
+  fontWeight: '$semibold',
+  fontSize: '1.125rem',
+  transition: '250ms',
+
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  cursor: 'pointer',
+
+  '&:hover': {
+    backgroundColor: '$brand4'
+  },
   variants: {
     type: {
       loginButton: {
-        height: '3rem',
         width: '100%',
-        backgroundColor: '$brand5',
-        borderRadius: '32px',
-        fontFamily: '$play',
-        fontWeight: '$semibold',
-        fontSize: '1.125rem',
-        cursor: 'pointer',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
 
         '&:hover': {
           backgroundColor: '$brand4'
         }
+      },
+      moreResultsButton: {
+        width: 'fit-content',
+        padding: '2rem'
       }
     }
   }

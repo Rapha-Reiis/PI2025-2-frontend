@@ -70,7 +70,7 @@ const NavBar = () => {
               <a href='#about'>{<GrGamepad />}Meus Jogos</a>
             </NavItem>
             <NavItem>
-              <a href='#contact'>{<MdOutlineWorkspacePremium />}Area Premium</a>
+              <a href='/premium'>{<MdOutlineWorkspacePremium />}Area Premium</a>
             </NavItem>
             <NavItem>
               <a href='#services'>{<CgProfile />}Perfil</a>

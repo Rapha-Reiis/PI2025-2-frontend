@@ -12,6 +12,7 @@ import type { IGetUserDataResponse } from '@interfaces/users.interface';
 const AuthProvider = ({ children }: IDefaultProviderProp) => {
   const navigate = useNavigate();
   const [userData, setUserdata] = useState<IGetUserDataResponse | null>(null);
+  const [userLoading, setUserLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('@SafeZoneToken');
@@ -31,6 +32,8 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
     // }
 
     const decodedToken = jwtDecode(token) as IJWTToken;
+    console.log(decodedToken);
+
     userLogged(decodedToken.id);
   }, []);
 
@@ -57,9 +60,10 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
   };
 
   const userLogged = async (id: string) => {
+    setUserLoading(true);
     try {
-      const userDataRespose: IGetUserDataResponse = await api.get(`/users/${id}`);
-      setUserdata(userDataRespose);
+      const userDataRespose = await api.get(`/users/${id}`);
+      setUserdata(userDataRespose.data);
     } catch (error) {
       const axiosError = error as AxiosError<IErrorResponse>;
       if (axiosError.response) {
@@ -73,10 +77,12 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
         console.error('Erro desconhecido:', axiosError.message);
       }
       console.log(error);
+    } finally {
+      setUserLoading(false);
     }
   };
 
-  return <AuthContext.Provider value={{ signIn, userData, setUserdata }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ signIn, userData, setUserdata, userLoading }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

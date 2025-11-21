@@ -1,5 +1,10 @@
 import { GameContext } from '@contexts/Game.context';
-import type { IGameByIDResponse, IGamesListResponse, IUserGamesResponse } from '@interfaces/game.interface';
+import type {
+  IGameByIDResponse,
+  IGamesListResponse,
+  IUserGamesResponse,
+  TGameStatus
+} from '@interfaces/game.interface';
 import type { IDefaultProviderProp } from '@interfaces/providerProps.interface';
 import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
@@ -43,11 +48,12 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const getGamesByID = async (gameID: string) => {
+  const getGamesByID = async (gameID: number, userID: string) => {
     setGameLoading(true);
     try {
-      const searchResponse = await api.get(`/games/${gameID}`);
+      const searchResponse = await api.get(`/games/id?gameId=${gameID}&userId=${userID}`);
       setGameByID(searchResponse.data);
+      console.log(searchResponse);
     } catch (error) {
       handleAxiosErrors(error);
     } finally {
@@ -67,6 +73,57 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
+  const createGameStatus = async (status: string, userId: string, gameId: number) => {
+    const data = {
+      userId,
+      status,
+      gameId
+    };
+
+    try {
+      const gameStatusRespose = await api.post(`/profile`, data);
+      console.log(gameStatusRespose);
+    } catch (error) {
+      handleAxiosErrors(error);
+    }
+  };
+
+  const updateGameStatus = async (status: string, userGameID: string) => {
+    console.log(status);
+    try {
+      const gameStatusRespose = await api.put(`/profile/update/${userGameID}`, { status: status });
+      console.log(gameStatusRespose);
+    } catch (error) {
+      handleAxiosErrors(error);
+    }
+  };
+
+  const deleteGameStatus = async (userGameID: string) => {
+    try {
+      const gameStatusRespose = await api.delete(`/profile/delete/${userGameID}`);
+      console.log(gameStatusRespose);
+    } catch (error) {
+      handleAxiosErrors(error);
+    }
+  };
+
+  const handleGameStatus = async (
+    actualStatus: TGameStatus,
+    sentStatus: 'BACKLOG' | 'PLAYING' | 'FINISHED' | 'DROPPED',
+    userId: string,
+    userGameID: string | null,
+    gameId: number
+  ) => {
+    if (actualStatus === null) {
+      await createGameStatus(sentStatus, userId, gameId);
+    } else if (actualStatus !== sentStatus) {
+      await updateGameStatus(sentStatus, userGameID!);
+    } else if (actualStatus === sentStatus) {
+      await deleteGameStatus(userGameID!);
+    }
+    await getGamesByID(gameId, userId);
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -81,7 +138,11 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
         getGamesByID,
         gameByID,
         setGameByID,
-        getUserGames
+        getUserGames,
+        createGameStatus,
+        updateGameStatus,
+        deleteGameStatus,
+        handleGameStatus
       }}
     >
       {children}

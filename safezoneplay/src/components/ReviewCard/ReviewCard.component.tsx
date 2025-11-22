@@ -23,10 +23,10 @@ type ReviewCardProps = {
   title: string;
   rating: number;
   username: string;
-  description: string;
-  publishedAt: string | null;
+  body: string;
+  publishedAt: Date | null;
   likes: number;
-  coverUrl: string | null;
+  coverUrl?: string | null;
   avatarUrl: string | null;
   likedByUser: boolean;
   onClick?: () => void;
@@ -49,7 +49,7 @@ export function ReviewCard({
   title,
   rating,
   username,
-  description,
+  body,
   publishedAt,
   likes,
   coverUrl,
@@ -62,6 +62,9 @@ export function ReviewCard({
     e.stopPropagation();
     onToggleLike?.(likedByUser);
   }
+
+  let publishedDate = '';
+  if (publishedAt) publishedDate = new Date(publishedAt).toLocaleDateString();
 
   return (
     <Card onClick={onClick}>
@@ -80,10 +83,10 @@ export function ReviewCard({
           </UserInfo>
         </Header>
 
-        <Description>{description}</Description>
+        <Description>{body}</Description>
 
         <Footer>
-          <PublishDate>Publicado: {publishedAt}</PublishDate>
+          <PublishDate>Publicado: {publishedDate}</PublishDate>
 
           <LikeButton
             onClick={handleLikeClick}

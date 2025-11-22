@@ -146,6 +146,48 @@ const GameAsideCard = styled('div', {
   }
 });
 
+const ReviewContainer = styled('div', {
+  marginTop: '3rem',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  gap: '1.5rem',
+
+  h2: {
+    gridColumn: '1 / -1',
+    marginBottom: '1rem',
+    fontSize: '1.5rem',
+    fontWeight: '600'
+  },
+
+  '.page-number': {
+    color: '$brand5'
+  },
+
+  '.review-pagination': {
+    gridColumn: '1 / -1',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '1rem',
+    marginTop: '1rem',
+
+    button: {
+      padding: '0.5rem 1rem',
+      borderRadius: '6px',
+      backgroundColor: '$brand3',
+      border: 'none',
+      cursor: 'pointer',
+      color: 'white',
+      fontWeight: '500',
+
+      '&:disabled': {
+        backgroundColor: '#555',
+        cursor: 'not-allowed'
+      }
+    }
+  }
+});
+
 export {
   StyledGamePageMain,
   StyledGameDetailsContainer,
@@ -154,5 +196,6 @@ export {
   GameDescription,
   GameGallery,
   GameInfos,
-  GameAsideCard
+  GameAsideCard,
+  ReviewContainer
 };

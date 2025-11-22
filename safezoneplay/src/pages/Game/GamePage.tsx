@@ -18,40 +18,41 @@ import { Loading } from '@components/Loading/Loading.component';
 import { FaRegCircleCheck, FaRegCircleXmark } from 'react-icons/fa6';
 import { IoGameControllerOutline } from 'react-icons/io5';
 import { RiBookShelfLine } from 'react-icons/ri';
+import useAuth from '@hooks/useAuth';
 
 const GamePage = () => {
   const param = useParams();
-  const { getGamesByID, gameByID, gameLoading } = useGames();
+  const { userData, userLoading } = useAuth();
+  const { getGamesByID, gameByID, gameLoading, handleGameStatus } = useGames();
 
   useEffect(() => {
-    gameByID.background_image = ''; //Para prevenir que o fundo do jogo aberto anteriormente apareca quando se abre um novo jogo.
     window.scrollTo(0, 0);
-
-    if (param.id) {
-      getGamesByID(param.id);
-    }
-  }, [param.id]);
+    if (!param.id) return;
+    if (userLoading) return;
+    if (!userData) return;
+    getGamesByID(Number(param.id), userData.id);
+  }, [param.id, userData, userLoading]);
 
   return (
     <StyledGamePageMain
       style={{
-        ['--bg-image' as string]: `url(${gameByID.background_image})`
+        ['--bg-image' as string]: `url(${gameByID?.game?.background_image || ''})`
       }}
     >
       <Container>
-        {gameLoading ? (
+        {gameLoading || userLoading ? (
           <Loading />
         ) : (
           <StyledGameContainer>
             <StyledGameDetailsContainer>
               <StyledGameTitle>
-                <h1>{gameByID.name}</h1>
+                <h1>{gameByID?.game?.name}</h1>
               </StyledGameTitle>
               <GameDescription>
-                <p>{parseHtmlToText.htmlToText(gameByID.description)}</p>
+                <p>{parseHtmlToText.htmlToText(gameByID?.game?.description)}</p>
               </GameDescription>
               <GameGallery>
-                {gameByID.screen_shots?.map((image) => {
+                {gameByID?.game?.screen_shots?.map((image) => {
                   return <img src={`${image.image}`} key={image.id} />;
                 })}
               </GameGallery>
@@ -60,7 +61,7 @@ const GamePage = () => {
                   <div>
                     <p className='minorDetails-title'>Gêneros:</p>
                     <ul>
-                      {gameByID.genres?.map((genre) => (
+                      {gameByID?.game?.genres?.map((genre) => (
                         <li key={genre.id}>
                           <p>{genre.name}</p>
                         </li>
@@ -71,7 +72,7 @@ const GamePage = () => {
                   <div>
                     <p className='minorDetails-title'>Desenvolvedores:</p>
                     <ul>
-                      {gameByID.developers?.map((developer) => (
+                      {gameByID?.game?.developers?.map((developer) => (
                         <li key={developer.id}>
                           <p>{developer.name}</p>
                         </li>
@@ -82,7 +83,7 @@ const GamePage = () => {
                   <div>
                     <p className='minorDetails-title'>Editora:</p>
                     <ul>
-                      {gameByID.publishers?.map((publisher) => (
+                      {gameByID?.game?.publishers?.map((publisher) => (
                         <li key={publisher.id}>
                           <p>{publisher.name}</p>
                         </li>
@@ -94,12 +95,12 @@ const GamePage = () => {
                 <div className='column'>
                   <div>
                     <p className='minorDetails-title'>Lançamento: </p>
-                    <p>{gameByID.released?.split('-').reverse().join('/')}</p>
+                    <p>{gameByID?.game?.released?.split('-').reverse().join('/')}</p>
 
-                    {/* 
+                    {/*
                     Comentei porque muitos jogos não tem tempo de jogo ou vem com tempos totalmente errados.
-                    
-                    {gameByID.playtime != 0 && <p>Tempo de jogo: {gameByID.playtime} horas</p>} 
+
+                    {gameByID.playtime != 0 && <p>Tempo de jogo: {gameByID.playtime} horas</p>}
                     */}
                   </div>
                 </div>
@@ -108,7 +109,7 @@ const GamePage = () => {
                   <div>
                     <p className='minorDetails-title'>Plataformas:</p>
                     <ul>
-                      {gameByID.paltforms?.map((platform) => (
+                      {gameByID?.game?.paltforms?.map((platform) => (
                         <li key={platform.id}>
                           <p>{platform.name}</p>
                         </li>
@@ -122,10 +123,10 @@ const GamePage = () => {
                     <p className='minorDetails-title'>Links</p>
                     <ul>
                       <li key={'webSite'}>
-                        <a href={gameByID.website}>Site Oficial</a>
+                        <a href={gameByID?.game?.website}>Site Oficial</a>
                       </li>
                       <li key={'reddit'}>
-                        <a href={gameByID.reddit_url}>Reddit</a>
+                        <a href={gameByID?.game?.reddit_url}>Reddit</a>
                       </li>
                     </ul>
                   </div>
@@ -133,29 +134,77 @@ const GamePage = () => {
               </GameInfos>
             </StyledGameDetailsContainer>
             <GameAsideCard>
-              <img src={gameByID.background_image} />
+              <img src={gameByID?.game?.background_image} />
               <ul>
                 {/* <li key={'addToList'}>
                   <FaRegStar />
                   <p>Adicionar à lista</p>
                 </li> */}
 
-                <li key={'addToBacklog'}>
+                <li
+                  onClick={() =>
+                    handleGameStatus(
+                      gameByID?.userGame?.status,
+                      'BACKLOG',
+                      userData!.id,
+                      gameByID?.userGame?.userGameId,
+                      Number(param.id)
+                    )
+                  }
+                  className={gameByID?.userGame?.status === 'BACKLOG' ? 'backlog' : ''}
+                  key={'addToBacklog'}
+                >
                   <RiBookShelfLine />
                   <p>Backlog</p>
                 </li>
 
-                <li key={'playing'}>
+                <li
+                  onClick={() =>
+                    handleGameStatus(
+                      gameByID?.userGame?.status,
+                      'PLAYING',
+                      userData!.id,
+                      gameByID?.userGame?.userGameId,
+                      Number(param.id)
+                    )
+                  }
+                  className={gameByID?.userGame?.status === 'PLAYING' ? 'playing' : ''}
+                  key={'playing'}
+                >
                   <IoGameControllerOutline />
                   <p>Jogando</p>
                 </li>
 
-                <li key={'addToFinished'}>
+                <li
+                  onClick={() =>
+                    handleGameStatus(
+                      gameByID?.userGame?.status,
+                      'FINISHED',
+                      userData!.id,
+                      gameByID?.userGame?.userGameId,
+                      Number(param.id)
+                    )
+                  }
+                  className={gameByID?.userGame?.status === 'FINISHED' ? 'finished' : ''}
+                  key={'addToFinished'}
+                >
                   <FaRegCircleCheck />
                   <p>Finalizado</p>
                 </li>
 
-                <li key={'abandoned'}>
+                <li
+                  onClick={() =>
+                    handleGameStatus(
+                      gameByID?.userGame?.status,
+                      'DROPPED',
+                      userData!.id,
+                      gameByID?.userGame?.userGameId,
+                      Number(param.id)
+                    )
+                  }
+                  className={gameByID?.userGame?.status === 'DROPPED' ? 'dropped' : ''}
+                  key={'abandoned'}
+                >
                   <FaRegCircleXmark />
                   <p>Abandonado</p>
                 </li>

@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { IGameByIDResponse, IGameContextProps } from '@interfaces/game.interface';
+import type {
+  ICreateGameStatus,
+  IGameByIDResponse,
+  IGameContextProps,
+  IGamesListResponse,
+  IUpdateGameStatus,
+  IUserGames,
+  TGameStatus
+} from '@interfaces/game.interface';
 import { createContext, type SetStateAction } from 'react';
 
 export const GameContext = createContext<IGameContextProps>({
@@ -25,7 +33,7 @@ export const GameContext = createContext<IGameContextProps>({
 
   searchGamesResult: [],
 
-  getGamesByID: function (_gameID: string): Promise<void> {
+  getGamesByID: function (_gameID: number, _userID: string): Promise<void> {
     throw new Error('Function not implemented.');
   },
 
@@ -37,7 +45,35 @@ export const GameContext = createContext<IGameContextProps>({
     throw new Error('Function not implemented.');
   },
 
-  getUserGames: function (_userID: string): Promise<void> {
+  createGameStatus: function (_status: string, _userId: string, _gameId: number): Promise<void> {
+    throw new Error('Function not implemented.');
+  },
+
+  updateGameStatus: function (_status: string, _userGameID: string): Promise<void> {
+    throw new Error('Function not implemented.');
+  },
+
+  deleteGameStatus: function (_userGameID: string): Promise<void> {
+    throw new Error('Function not implemented.');
+  },
+
+  handleGameStatus: function (
+    _actualStatus: TGameStatus,
+    _sentStatus: 'BACKLOG' | 'PLAYING' | 'FINISHED' | 'DROPPED',
+    _userId: string,
+    _userGameID: string | null,
+    _gameId: number
+  ): Promise<void> {
+    throw new Error('Function not implemented.');
+  },
+
+  getUserGames: function (_userID: string, _page: number, _limitPerPage: number): Promise<void> {
+    throw new Error('Function not implemented.');
+  },
+
+  userGames: [],
+
+  setUserGames: function (_value: SetStateAction<IGamesListResponse>): void {
     throw new Error('Function not implemented.');
   }
 });

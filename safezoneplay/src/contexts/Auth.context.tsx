@@ -8,8 +8,9 @@ export const AuthContext = createContext<ILoginContextProps>({
     throw new Error('Function not implemented.');
   },
   userData: null,
+
+  userLoading: false,
   setUserdata: function (_value: SetStateAction<IGetUserDataResponse | null>): void {
     throw new Error('Function not implemented.');
-  },
-  userLoading: false
+  }
 });

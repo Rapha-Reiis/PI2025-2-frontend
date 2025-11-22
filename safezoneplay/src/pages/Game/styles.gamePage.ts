@@ -101,7 +101,28 @@ const GameAsideCard = styled('div', {
     flexDirection: 'column',
     gap: '1rem',
     justifyContent: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+
+    '.backlog': {
+      '& svg, p': {
+        color: 'orange'
+      }
+    },
+    '.playing': {
+      '& svg, p': {
+        color: 'purple'
+      }
+    },
+    '.finished': {
+      '& svg, p': {
+        color: 'green'
+      }
+    },
+    '.dropped': {
+      '& svg, p': {
+        color: 'red'
+      }
+    }
   },
 
   li: {

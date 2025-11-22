@@ -69,7 +69,9 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
       const userGameResponse: AxiosResponse<IUserGamesResponse> = await api.get(
         `/profile/?userId=${userID}&page=${page}&limit=${limitPerPage}`
       );
-      const onlyGamesField = userGameResponse.data.data.map((result) => result.game);
+      const onlyGamesField = userGameResponse.data.data
+        .map((result) => result.game)
+        .sort((a, b) => a.name.localeCompare(b.name));
       setUserGames(onlyGamesField);
       console.log(userGameResponse);
     } catch (error) {

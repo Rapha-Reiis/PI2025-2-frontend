@@ -6,8 +6,8 @@ const StyledMain = styled('section', {
 
   h2: { fontSize: '$title5', fontFamily: '$inter' },
 
-  '#cardlist-myGames': {
-    padding: '3rem 0'
+  '#cardlist-myGames, #cardList-popularGames': {
+    padding: '4rem 0'
   }
 });
 export { StyledMain };

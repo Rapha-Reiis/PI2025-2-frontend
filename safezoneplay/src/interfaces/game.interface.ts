@@ -105,38 +105,38 @@ export interface IGameByIDResponse {
   };
 }
 
-export interface IUserGamesResponse {
-  data: {
-    id: string;
-    userId: string;
-    gameId: number;
-    status: 'BACKLOG' | 'PLAYING' | 'FINISHED' | 'DROPPED'; // ajuste se necessário
-    note: string | null;
-    created_at: string;
-    updated_at: string;
-    game: {
-      idGame: number;
-      name: string;
-      slug: string;
-      description: string;
-      metacritic: number;
-      released: string;
-      background_image: string;
-      website: string;
-      platforms: {
-        id: number;
-        name: string;
-      }[];
-      genres: {
-        id: number;
-        name: string;
-      }[][];
-    };
-  }[];
-  totalGames: number;
-  totalPage: number;
-  currentPage: number;
-}
+// export interface IUserGamesResponse {
+//   data: {
+//     id: string;
+//     userId: string;
+//     gameId: number;
+//     status: 'BACKLOG' | 'PLAYING' | 'FINISHED' | 'DROPPED'; // ajuste se necessário
+//     note: string | null;
+//     created_at: string;
+//     updated_at: string;
+//     game: {
+//       idGame: number;
+//       name: string;
+//       slug: string;
+//       description: string;
+//       metacritic: number;
+//       released: string;
+//       background_image: string;
+//       website: string;
+//       platforms: {
+//         id: number;
+//         name: string;
+//       }[];
+//       genres: {
+//         id: number;
+//         name: string;
+//       }[][];
+//     };
+//   }[];
+//   totalGames: number;
+//   totalPage: number;
+//   currentPage: number;
+// }
 
 export interface IGameByIDRequest {
   gameId: number;
@@ -156,6 +156,27 @@ export interface IUpdateGameStatus {
 
 export type TGameStatus = string | null;
 
+export interface IUserGames {
+  id: string;
+  userId: string;
+  gameId: number;
+  game_name: string;
+  status: 'BACKLOG' | 'PLAYING' | 'FINISHED' | 'DROPPED';
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+
+  game: Game;
+
+  totalGames: number;
+  totalPage: number;
+  currentPage: number;
+}
+
+export interface IUserGamesResponse {
+  data: IUserGames[];
+}
+
 export interface IGameContextProps {
   gameLoading: boolean;
   setGameLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -168,7 +189,7 @@ export interface IGameContextProps {
   getGamesByID: (gameID: number, userID: string) => Promise<void>;
   gameByID: IGameByIDResponse;
   setGameByID: React.Dispatch<React.SetStateAction<IGameByIDResponse>>;
-  getUserGames: (userID: string) => Promise<void>;
+  getUserGames: (userID: string, page: number, limitPerPage: number) => Promise<void>;
   createGameStatus: (status: string, userId: string, gameId: number) => Promise<void>;
   updateGameStatus: (status: string, userGameID: string) => Promise<void>;
   deleteGameStatus: (userGameID: string) => Promise<void>;
@@ -179,4 +200,6 @@ export interface IGameContextProps {
     userGameID: string | null,
     gameId: number
   ) => void;
+  userGames: IGamesListResponse;
+  setUserGames: React.Dispatch<React.SetStateAction<IGamesListResponse>>;
 }

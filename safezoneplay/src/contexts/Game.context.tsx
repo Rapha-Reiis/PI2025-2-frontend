@@ -3,7 +3,9 @@ import type {
   ICreateGameStatus,
   IGameByIDResponse,
   IGameContextProps,
+  IGamesListResponse,
   IUpdateGameStatus,
+  IUserGames,
   TGameStatus
 } from '@interfaces/game.interface';
 import { createContext, type SetStateAction } from 'react';
@@ -43,10 +45,6 @@ export const GameContext = createContext<IGameContextProps>({
     throw new Error('Function not implemented.');
   },
 
-  getUserGames: function (_userID: string): Promise<void> {
-    throw new Error('Function not implemented.');
-  },
-
   createGameStatus: function (_status: string, _userId: string, _gameId: number): Promise<void> {
     throw new Error('Function not implemented.');
   },
@@ -58,13 +56,24 @@ export const GameContext = createContext<IGameContextProps>({
   deleteGameStatus: function (_userGameID: string): Promise<void> {
     throw new Error('Function not implemented.');
   },
+
   handleGameStatus: function (
-    actualStatus: TGameStatus,
-    sentStatus: 'BACKLOG' | 'PLAYING' | 'FINISHED' | 'DROPPED',
-    userId: string,
-    userGameID: string | null,
-    gameId: number
+    _actualStatus: TGameStatus,
+    _sentStatus: 'BACKLOG' | 'PLAYING' | 'FINISHED' | 'DROPPED',
+    _userId: string,
+    _userGameID: string | null,
+    _gameId: number
   ): Promise<void> {
+    throw new Error('Function not implemented.');
+  },
+
+  getUserGames: function (_userID: string, _page: number, _limitPerPage: number): Promise<void> {
+    throw new Error('Function not implemented.');
+  },
+
+  userGames: [],
+
+  setUserGames: function (_value: SetStateAction<IGamesListResponse>): void {
     throw new Error('Function not implemented.');
   }
 });

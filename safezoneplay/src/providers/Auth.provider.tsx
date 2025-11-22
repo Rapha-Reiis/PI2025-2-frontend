@@ -25,12 +25,6 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
 
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-    // SE FOR USAR TELA DE LOADING, DESCOMENTAR...
-    // if (!token) {
-    //   setLoading(false);
-    //   return;
-    // }
-
     const decodedToken = jwtDecode(token) as IJWTToken;
     console.log(decodedToken);
 

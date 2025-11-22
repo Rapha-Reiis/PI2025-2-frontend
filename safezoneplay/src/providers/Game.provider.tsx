@@ -8,11 +8,13 @@ import type {
 import type { IDefaultProviderProp } from '@interfaces/providerProps.interface';
 import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
+import type { AxiosResponse } from 'axios';
 import { useState } from 'react';
 
 const GameProvider = ({ children }: IDefaultProviderProp) => {
   const [gameLoading, setGameLoading] = useState(false);
   const [popularGames, setPopularGames] = useState<IGamesListResponse>([]);
+  const [userGames, setUserGames] = useState<IGamesListResponse>([]);
 
   const [gameSearchValue, setGameSearchValue] = useState('');
   const [searchGamesResult, setSearchGamesResult] = useState<IGamesListResponse>([]);
@@ -61,10 +63,14 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const getUserGames = async (userID: string) => {
+  const getUserGames = async (userID: string, page: number, limitPerPage: number) => {
     setGameLoading(true);
     try {
-      const userGameResponse: IUserGamesResponse = await api.get(`/profile/?id=${userID}`);
+      const userGameResponse: AxiosResponse<IUserGamesResponse> = await api.get(
+        `/profile/?userId=${userID}&page=${page}&limit=${limitPerPage}`
+      );
+      const onlyGamesField = userGameResponse.data.data.map((result) => result.game);
+      setUserGames(onlyGamesField);
       console.log(userGameResponse);
     } catch (error) {
       handleAxiosErrors(error);
@@ -142,7 +148,9 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
         createGameStatus,
         updateGameStatus,
         deleteGameStatus,
-        handleGameStatus
+        handleGameStatus,
+        userGames,
+        setUserGames
       }}
     >
       {children}

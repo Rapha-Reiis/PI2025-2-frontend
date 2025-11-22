@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Container } from '@styles/global';
 import { GameCardList } from '@components/GameCard/GameCard.component';
 import { StyledMain } from './styles.homePage';

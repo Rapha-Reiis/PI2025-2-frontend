@@ -37,7 +37,7 @@ const NavBar = () => {
     <HeaderStyled style={{ transform: hidden ? 'translateY(-100%)' : 'translateY(0)' }}>
       <Container>
         <Nav>
-          <div className='nav-container-logo'>
+          <div className='nav-container-logo' onClick={() => navigate(`/home`)}>
             <img src={logo} alt='sfc_logo' />
           </div>
           <MenuContainer>

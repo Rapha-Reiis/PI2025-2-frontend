@@ -1,16 +1,18 @@
-
 import { styled } from '@styles/stitches.config';
 
 export const Card = styled('li', {
   listStyle: 'none',
   display: 'flex',
-  background: '#18172B',
+  alignItems: 'center',
+  background: '#252545',
   borderRadius: '20px',
-  padding: '16px 24px',
+  padding: '20px 32px',
   gap: '24px',
   color: '#fff',
   maxWidth: '900px',
   width: '100%',
+
+  border: '2px solid #8A2BE2',
 
   cursor: 'pointer',
   transition: 'transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease',
@@ -18,7 +20,7 @@ export const Card = styled('li', {
   '&:hover': {
     transform: 'translateY(-2px)',
     boxShadow: '0 8px 20px rgba(0, 0, 0, 0.45)',
-    background: '#1E1D34'
+    background: '#2E2E54'
   },
 
   '&:active': {
@@ -26,23 +28,13 @@ export const Card = styled('li', {
   }
 });
 
-export const Cover = styled('div', {
-  width: '120px',
-  minWidth: '120px',
-  height: '180px',
-  borderRadius: '4px',
-
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-
-  backgroundColor: '#dfdfdf',
-  color: '#555',
-  fontSize: '14px',
-
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
+export const Avatar = styled('img', {
+  width: '80px',
+  height: '80px',
+  borderRadius: '50%',
+  objectFit: 'cover',
+  background: '#d9d9d9',
+  flexShrink: 0
 });
 
 export const Body = styled('div', {
@@ -55,7 +47,7 @@ export const Header = styled('header', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'flex-start',
-  marginBottom: '8px'
+  marginBottom: '12px'
 });
 
 export const Title = styled('h2', {
@@ -67,26 +59,17 @@ export const Title = styled('h2', {
 export const Stars = styled('div', {
   display: 'flex',
   gap: '2px',
-  fontSize: '16px',
+  fontSize: '18px',
   color: '#FFE600'
 });
 
-export const UserInfo = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px'
-});
+export const CreatedBy = styled('span', {
+  fontSize: '13px',
+  color: '#D0CFEA',
 
-export const Avatar = styled('img', {
-  width: '50px',
-  height: '50px',
-  borderRadius: '50%',
-  objectFit: 'cover',
-  background: '#d9d9d9'
-});
-
-export const Username = styled('span', {
-  fontSize: '14px'
+  '& span': {
+    fontWeight: 500
+  }
 });
 
 export const Description = styled('p', {
@@ -95,11 +78,12 @@ export const Description = styled('p', {
   fontSize: '14px',
   lineHeight: 1.5,
 
+  height: '60px',
+  overflow: 'hidden',
+
   display: '-webkit-box',
   WebkitLineClamp: '3',
   WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
 
   wordBreak: 'break-word',
   overflowWrap: 'break-word'

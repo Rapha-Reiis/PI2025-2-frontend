@@ -1,10 +1,9 @@
-// ReviewCard.tsx
 import type React from 'react';
 import {
   Avatar,
   Body,
   Card,
-  Cover,
+  CreatedBy,
   Description,
   Footer,
   Header,
@@ -12,9 +11,7 @@ import {
   LikeCount,
   PublishDate,
   Stars,
-  Title,
-  UserInfo,
-  Username
+  Title
 } from './reviewCard.style';
 
 const MAX_STARS = 5;
@@ -27,7 +24,6 @@ type ReviewCardProps = {
   body: string;
   publishedAt: Date | null;
   likes: number;
-  coverUrl?: string | null;
   avatarUrl: string | null;
   likedByUser: boolean;
   onClick?: () => void;
@@ -54,7 +50,6 @@ export function ReviewCard({
   body,
   publishedAt,
   likes,
-  coverUrl,
   avatarUrl,
   likedByUser,
   onToggleLike,
@@ -70,14 +65,23 @@ export function ReviewCard({
     if (url.startsWith('http://') || url.startsWith('https://')) return url;
     return `http://${url}`;
   }
+
   const avatar = normalizeUrl(avatarUrl);
 
   let publishedDate = '';
-  if (publishedAt) publishedDate = new Date(publishedAt).toLocaleDateString();
+  if (publishedAt) {
+    publishedDate = new Date(publishedAt).toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
 
   return (
     <Card onClick={onClick}>
-      <Cover css={{ backgroundImage: `url(${coverUrl})` }}>{!coverUrl && 'capa'}</Cover>
+      <Avatar src={avatar ?? undefined} />
 
       <Body>
         <Header>
@@ -86,10 +90,9 @@ export function ReviewCard({
             <StarRating rating={rating} />
           </div>
 
-          <UserInfo>
-            <Avatar src={avatar ?? undefined} />
-            <Username>{username}</Username>
-          </UserInfo>
+          <CreatedBy>
+            Criado por - <span>{username}</span>
+          </CreatedBy>
         </Header>
 
         <Description>{body}</Description>
@@ -101,8 +104,8 @@ export function ReviewCard({
             onClick={handleLikeClick}
             css={{
               background: likedByUser ? '#960a23' : 'transparent',
-              borderColor: likedByUser ? '#500412' : '#fff',
-              color: '#fff'
+              borderColor: likedByUser ? '#960a23' : '#ffffff',
+              color: '#ffffff'
             }}
           >
             <span>{likedByUser ? '❤️' : '♡'}</span>

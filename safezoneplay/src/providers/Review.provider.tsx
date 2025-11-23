@@ -1,6 +1,12 @@
 import { ReviewContext } from '@contexts/Review.context';
 import type { IDefaultProviderProp, IErrorResponse } from '@interfaces/providerProps.interface';
-import type { ICreateReview, IReviewListParam, IReviewResponse } from '@interfaces/review.interface';
+import type {
+  ICreateReview,
+  IDeleteReviewParam,
+  IReviewLikeParam,
+  IReviewListParam,
+  IReviewResponse
+} from '@interfaces/review.interface';
 import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
 import type { AxiosError } from 'axios';
@@ -10,6 +16,7 @@ import { toast } from 'react-toastify';
 const ReviewProvider = ({ children }: IDefaultProviderProp) => {
   const [reviewLoading, setReviewLoading] = useState(false);
   const [reviewFeed, setReviewFeed] = useState<IReviewResponse[]>([]);
+  const [reviewUser, setReviewUser] = useState<IReviewResponse[]>([]);
 
   const createReview = async (data: ICreateReview) => {
     try {
@@ -38,8 +45,61 @@ const ReviewProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
+  const reviewListByUser = async (data: IReviewListParam) => {
+    const { limit, page, userId } = data;
+    try {
+      setReviewLoading(true);
+      const getReview = await api.get(`/review/list/user/${userId}?page=${page}&limit=${limit}`);
+      setReviewUser(getReview.data);
+    } catch (error) {
+      handleAxiosErrors(error);
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
+  const deleteReview = async (data: IDeleteReviewParam) => {
+    const { reviewId } = data;
+    try {
+      await api.delete(`/review/${reviewId}`);
+      toast.success('Review deletada com sucesso!');
+    } catch (error) {
+      handleAxiosErrors(error);
+    }
+  };
+
+  const CreateLike = async (data: IReviewLikeParam) => {
+    const { reviewId, userId } = data;
+    try {
+      await api.post(`/reviewLike?reviewId=${reviewId}&userId=${userId}`);
+    } catch (error) {
+      handleAxiosErrors(error);
+    }
+  };
+
+  const DeleteLike = async (data: IReviewLikeParam) => {
+    const { reviewId, userId } = data;
+    try {
+      await api.delete(`/reviewLike?reviewId=${reviewId}Id=${userId}`);
+    } catch (error) {
+      handleAxiosErrors(error);
+    }
+  };
+
   return (
-    <ReviewContext.Provider value={{ reviewFeed, reviewLoading, createReview, reviewlistFeed }}>
+    <ReviewContext.Provider
+      value={{
+        reviewFeed,
+        reviewLoading,
+        createReview,
+        reviewlistFeed,
+        reviewUser,
+        reviewListByUser,
+        deleteReview,
+        CreateLike,
+        DeleteLike
+      }}
+    >
       {children}
     </ReviewContext.Provider>
   );

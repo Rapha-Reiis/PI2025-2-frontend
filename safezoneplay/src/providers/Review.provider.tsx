@@ -3,9 +3,12 @@ import type { IDefaultProviderProp, IErrorResponse } from '@interfaces/providerP
 import type {
   ICreateReview,
   IDeleteReviewParam,
+  IResponse2,
   IReviewLikeParam,
   IReviewListParam,
-  IReviewResponse
+  IReviewParam,
+  IReviewResponse,
+  IReviewUpdateParam
 } from '@interfaces/review.interface';
 import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
@@ -17,6 +20,7 @@ const ReviewProvider = ({ children }: IDefaultProviderProp) => {
   const [reviewLoading, setReviewLoading] = useState(false);
   const [reviewFeed, setReviewFeed] = useState<IReviewResponse[]>([]);
   const [reviewUser, setReviewUser] = useState<IReviewResponse[]>([]);
+  const [reviewByUser, setReviewByUser] = useState<IResponse2 | null>(null);
 
   const createReview = async (data: ICreateReview) => {
     try {
@@ -27,6 +31,16 @@ const ReviewProvider = ({ children }: IDefaultProviderProp) => {
       if (axiosError.response) {
         toast.error(axiosError.response.data.message);
       }
+    }
+  };
+
+  const reviewUpdate = async (data: IReviewUpdateParam, reviewId: string) => {
+    try {
+      console.log('reviewID: ', reviewId);
+      await api.put(`/review/update/${reviewId}`, data);
+      toast.success('Review atualizada');
+    } catch (error) {
+      handleAxiosErrors(error);
     }
   };
 
@@ -55,6 +69,17 @@ const ReviewProvider = ({ children }: IDefaultProviderProp) => {
       handleAxiosErrors(error);
     } finally {
       setReviewLoading(false);
+    }
+  };
+
+  const reviewByUserAndGame = async (data: IReviewParam) => {
+    const { gameId, userId } = data;
+    try {
+      const review = await api.get(`/review/user/game?userId=${userId}&gameId=${gameId}`);
+      console.log('resultado: ', review);
+      setReviewByUser(review.data);
+    } catch (error) {
+      handleAxiosErrors(error);
     }
   };
 
@@ -91,13 +116,17 @@ const ReviewProvider = ({ children }: IDefaultProviderProp) => {
       value={{
         reviewFeed,
         reviewLoading,
+        reviewUpdate,
         createReview,
         reviewlistFeed,
         reviewUser,
         reviewListByUser,
         deleteReview,
         CreateLike,
-        DeleteLike
+        DeleteLike,
+        reviewByUserAndGame,
+        setReviewByUser,
+        reviewByUser
       }}
     >
       {children}

@@ -5,6 +5,7 @@ import {
   GameDescription,
   GameGallery,
   GameInfos,
+  ReviewButton,
   ReviewContainer,
   StyledGameContainer,
   StyledGameDetailsContainer,
@@ -22,7 +23,7 @@ import { RiBookShelfLine } from 'react-icons/ri';
 import useAuth from '@hooks/useAuth';
 import { ReviewCard } from '@components/ReviewCard/ReviewCard.component';
 import useReview from '@hooks/useReview';
-import type { IReviewResponse } from '@interfaces/review.interface';
+import type { ICreateReview, IReviewResponse } from '@interfaces/review.interface';
 import { ReviewModal, type responseReview, type ReviewStatus } from '@components/Modal/reviewModal/reviewModal';
 import { toast } from 'react-toastify';
 
@@ -30,13 +31,16 @@ const GamePage = () => {
   const param = useParams();
   const { userData, userLoading } = useAuth();
   const { getGamesByID, gameByID, gameLoading, handleGameStatus } = useGames();
-  const { reviewFeed, reviewlistFeed, CreateLike, DeleteLike } = useReview();
+  const { reviewFeed, reviewlistFeed, CreateLike, DeleteLike, createReview } = useReview();
   const [page, setPage] = useState(1);
   const [ReviewModalOpen, setReviewModalOpen] = useState(false);
   const [selectReview, setSelectReview] = useState<Partial<responseReview | null>>(null);
+  const [canEditReview, setCanEditReview] = useState(false);
 
   function openReviewModal(review: IReviewResponse) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setCanEditReview(false);
 
     setSelectReview({
       body: review.body,
@@ -48,6 +52,48 @@ const GamePage = () => {
 
     setReviewModalOpen(true);
     document.body.style.overflow = 'hidden';
+  }
+
+  function openCreateReviewMoal() {
+    if (userData?.premium === false) {
+      toast.warn('Você precisa ser premium para escrever um review');
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setSelectReview(null);
+    setCanEditReview(true);
+    setReviewModalOpen(true);
+
+    document.body.style.overflow = 'hidden';
+  }
+
+  async function HandlecreateReview(data: IReviewResponse) {
+    const userId = userData?.id;
+    if (!userId) return;
+
+    const review: ICreateReview = {
+      gameId: Number(param.id),
+      body: data.body,
+      isPublic: data.isPublic,
+      status: data.status as ReviewStatus,
+      title: data.title,
+      rating: data.rating,
+      userId
+    };
+
+    try {
+      createReview(review);
+      await reviewlistFeed({
+        gameId: Number(param.id),
+        limit: 4,
+        page,
+        userId
+      });
+    } catch {
+      return;
+    }
   }
 
   async function likedAndRemoveLike(like: boolean, reviewId: string) {
@@ -91,12 +137,13 @@ const GamePage = () => {
       {ReviewModalOpen && (
         <ReviewModal
           open={ReviewModalOpen}
-          canEdit={false}
+          canEdit={canEditReview}
           initialValues={selectReview ?? undefined}
           onClose={() => {
             setReviewModalOpen(false);
             document.body.style.overflow = 'auto';
           }}
+          onSave={(data) => HandlecreateReview(data as IReviewResponse)}
         />
       )}
       <StyledGamePageMain
@@ -215,7 +262,7 @@ const GamePage = () => {
                       onClick={() => {
                         openReviewModal(review);
                       }}
-                        onToggleLike={(reviewId, like) => likedAndRemoveLike(like, reviewId)}
+                      onToggleLike={(reviewId, like) => likedAndRemoveLike(like, reviewId)}
                     />
                   ))}
 
@@ -318,6 +365,7 @@ const GamePage = () => {
                   <p>Avaliar</p>
                 </li> */}
                 </ul>
+                <ReviewButton onClick={() => openCreateReviewMoal()}>Deixar minha review</ReviewButton>
               </GameAsideCard>
             </StyledGameContainer>
           )}

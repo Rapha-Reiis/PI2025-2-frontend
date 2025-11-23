@@ -65,6 +65,13 @@ export function ReviewCard({
     onToggleLike?.(reviewId, likedByUser);
   }
 
+  function normalizeUrl(url: string | null) {
+    if (!url) return null;
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return `http://${url}`;
+  }
+  const avatar = normalizeUrl(avatarUrl);
+
   let publishedDate = '';
   if (publishedAt) publishedDate = new Date(publishedAt).toLocaleDateString();
 
@@ -80,7 +87,7 @@ export function ReviewCard({
           </div>
 
           <UserInfo>
-            <Avatar src={avatarUrl ?? undefined} />
+            <Avatar src={avatar ?? undefined} />
             <Username>{username}</Username>
           </UserInfo>
         </Header>

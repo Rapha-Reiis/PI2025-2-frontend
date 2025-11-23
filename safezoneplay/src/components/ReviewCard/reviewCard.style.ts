@@ -78,8 +78,8 @@ export const UserInfo = styled('div', {
 });
 
 export const Avatar = styled('img', {
-  width: '32px',
-  height: '32px',
+  width: '50px',
+  height: '50px',
   borderRadius: '50%',
   objectFit: 'cover',
   background: '#d9d9d9'

@@ -70,7 +70,6 @@ const ReviewProvider = ({ children }: IDefaultProviderProp) => {
 
   const CreateLike = async (data: IReviewLikeParam) => {
     const { reviewId, userId } = data;
-    console.log(data);
     try {
       await api.post(`/reviewLike?reviewId=${reviewId}&userId=${userId}`);
     } catch (error) {

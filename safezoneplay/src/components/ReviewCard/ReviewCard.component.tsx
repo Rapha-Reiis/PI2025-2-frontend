@@ -20,6 +20,7 @@ import {
 const MAX_STARS = 5;
 
 type ReviewCardProps = {
+  reviewId: string;
   title: string;
   rating: number;
   username: string;
@@ -30,7 +31,7 @@ type ReviewCardProps = {
   avatarUrl: string | null;
   likedByUser: boolean;
   onClick?: () => void;
-  onToggleLike?: (likedByUser: boolean) => void;
+  onToggleLike?: (reviewId: string, likedByUser: boolean) => void;
 };
 
 function StarRating({ rating }: { rating: number }) {
@@ -46,6 +47,7 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export function ReviewCard({
+  reviewId,
   title,
   rating,
   username,
@@ -60,7 +62,7 @@ export function ReviewCard({
 }: ReviewCardProps) {
   function handleLikeClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
-    onToggleLike?.(likedByUser);
+    onToggleLike?.(reviewId, likedByUser);
   }
 
   let publishedDate = '';

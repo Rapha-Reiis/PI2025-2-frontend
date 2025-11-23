@@ -24,12 +24,13 @@ import { ReviewCard } from '@components/ReviewCard/ReviewCard.component';
 import useReview from '@hooks/useReview';
 import type { IReviewResponse } from '@interfaces/review.interface';
 import { ReviewModal, type responseReview, type ReviewStatus } from '@components/Modal/reviewModal/reviewModal';
+import { toast } from 'react-toastify';
 
 const GamePage = () => {
   const param = useParams();
   const { userData, userLoading } = useAuth();
   const { getGamesByID, gameByID, gameLoading, handleGameStatus } = useGames();
-  const { reviewFeed, reviewlistFeed } = useReview();
+  const { reviewFeed, reviewlistFeed, CreateLike, DeleteLike } = useReview();
   const [page, setPage] = useState(1);
   const [ReviewModalOpen, setReviewModalOpen] = useState(false);
   const [selectReview, setSelectReview] = useState<Partial<responseReview | null>>(null);
@@ -47,6 +48,29 @@ const GamePage = () => {
 
     setReviewModalOpen(true);
     document.body.style.overflow = 'hidden';
+  }
+
+  async function likedAndRemoveLike(like: boolean, reviewId: string) {
+    const userId = userData?.id;
+    if (!userId) {
+      toast.error('Não foi possível realizar essa ação. Tente novamente mais tarde');
+      return;
+    }
+
+    console.log('like (estado atual antes do clique): ', like, 'reviewId: ', reviewId, 'userId: ', userId);
+
+    if (like) {
+      await DeleteLike({ reviewId, userId });
+    } else {
+      await CreateLike({ userId, reviewId });
+    }
+
+    await reviewlistFeed({
+      gameId: Number(param.id),
+      limit: 4,
+      page,
+      userId
+    });
   }
 
   useEffect(() => {
@@ -179,6 +203,7 @@ const GamePage = () => {
                   {reviewFeed.map((review: IReviewResponse) => (
                     <ReviewCard
                       key={review.reviewId}
+                      reviewId={review.reviewId}
                       title={review.title}
                       body={review.body}
                       username={review.author.username}
@@ -190,7 +215,7 @@ const GamePage = () => {
                       onClick={() => {
                         openReviewModal(review);
                       }}
-                      onToggleLike={(data) => console.log(data)}
+                        onToggleLike={(reviewId, like) => likedAndRemoveLike(like, reviewId)}
                     />
                   ))}
 

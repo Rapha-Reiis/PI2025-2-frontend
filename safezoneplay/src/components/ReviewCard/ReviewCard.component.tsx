@@ -60,7 +60,7 @@ export function ReviewCard({
     onToggleLike?.(reviewId, likedByUser);
   }
 
-  function normalizeUrl(url: string | null) {
+  function normalizeUrl(url: string | null | undefined) {
     if (!url) return null;
     if (url.startsWith('http://') || url.startsWith('https://')) return url;
     return `http://${url}`;

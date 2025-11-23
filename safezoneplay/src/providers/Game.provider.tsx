@@ -2,6 +2,7 @@ import { GameContext } from '@contexts/Game.context';
 import type {
   IGameByIDResponse,
   IGamesListResponse,
+  ITotalStatusUserResponse,
   IUserGamesResponse,
   TGameStatus
 } from '@interfaces/game.interface';
@@ -19,6 +20,7 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
   const [gameSearchValue, setGameSearchValue] = useState('');
   const [searchGamesResult, setSearchGamesResult] = useState<IGamesListResponse>([]);
   const [gameByID, setGameByID] = useState<IGameByIDResponse>({} as IGameByIDResponse);
+  const [totalGameStatusUser, setTotalGameStatusUser] = useState<ITotalStatusUserResponse[]>([]);
 
   const getPopularGames = async () => {
     setGameLoading(true);
@@ -63,12 +65,14 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const getUserGames = async (userID: string, page: number, limitPerPage: number) => {
+  const getUserGames = async (userID: string, page: number, limitPerPage: number, status?: string, search?: string) => {
     setGameLoading(true);
+    let url = `/profile/?userId=${userID}&page=${page}&limit=${limitPerPage}`;
+
+    if (status) url += `&status=${status}`;
+    if (search) url += `&search=${search}`;
     try {
-      const userGameResponse: AxiosResponse<IUserGamesResponse> = await api.get(
-        `/profile/?userId=${userID}&page=${page}&limit=${limitPerPage}`
-      );
+      const userGameResponse: AxiosResponse<IUserGamesResponse> = await api.get(url);
       const onlyGamesField = userGameResponse.data.data
         .map((result) => result.game)
         .sort((a, b) => a.name.localeCompare(b.name));
@@ -91,6 +95,15 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     try {
       const gameStatusRespose = await api.post(`/profile`, data);
       console.log(gameStatusRespose);
+    } catch (error) {
+      handleAxiosErrors(error);
+    }
+  };
+
+  const getTotalStatusUser = async (userId: string) => {
+    try {
+      const status = await api.get(`/profile/total/status/user?userId=${userId}`);
+      setTotalGameStatusUser(status.data);
     } catch (error) {
       handleAxiosErrors(error);
     }
@@ -152,7 +165,9 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
         deleteGameStatus,
         handleGameStatus,
         userGames,
-        setUserGames
+        setUserGames,
+        getTotalStatusUser,
+        totalGameStatusUser
       }}
     >
       {children}

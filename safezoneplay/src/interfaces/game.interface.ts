@@ -138,6 +138,11 @@ export interface IGameByIDResponse {
 //   currentPage: number;
 // }
 
+export interface ITotalStatusUserResponse {
+  status: string;
+  total: number;
+}
+
 export interface IGameByIDRequest {
   gameId: number;
   userId: string;
@@ -189,7 +194,7 @@ export interface IGameContextProps {
   getGamesByID: (gameID: number, userID: string) => Promise<void>;
   gameByID: IGameByIDResponse;
   setGameByID: React.Dispatch<React.SetStateAction<IGameByIDResponse>>;
-  getUserGames: (userID: string, page: number, limitPerPage: number) => Promise<void>;
+  getUserGames: (userID: string, page: number, limitPerPage: number, status?: string, search?: string) => Promise<void>;
   createGameStatus: (status: string, userId: string, gameId: number) => Promise<void>;
   updateGameStatus: (status: string, userGameID: string) => Promise<void>;
   deleteGameStatus: (userGameID: string) => Promise<void>;
@@ -202,4 +207,6 @@ export interface IGameContextProps {
   ) => void;
   userGames: IGamesListResponse;
   setUserGames: React.Dispatch<React.SetStateAction<IGamesListResponse>>;
+  getTotalStatusUser: (userId: string) => Promise<void>;
+  totalGameStatusUser: ITotalStatusUserResponse[];
 }

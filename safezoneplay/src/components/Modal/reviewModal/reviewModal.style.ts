@@ -201,6 +201,20 @@ export const CancelButton = styled('button', {
   }
 });
 
+export const DeleteButton = styled('button', {
+  borderRadius: '999px',
+  padding: '8px 16px',
+  border: '1px solid #ff4d4f',
+  background: 'transparent',
+  color: '#ff4d4f',
+  fontSize: '14px',
+  cursor: 'pointer',
+
+  '&:hover': {
+    background: '#3a1b1f'
+  }
+});
+
 export const ErrorText = styled('span', {
   fontSize: '12px',
   color: '#ff6b6b'

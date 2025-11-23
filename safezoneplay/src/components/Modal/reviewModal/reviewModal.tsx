@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Backdrop,
   ModalCard,
@@ -17,7 +17,9 @@ import {
   Select,
   ModalFooter,
   SaveButton,
-  CancelButton
+  CancelButton,
+  DeleteButton,
+  ErrorText
 } from './reviewModal.style';
 
 const MAX_STARS = 5 as const;
@@ -38,14 +40,42 @@ type ReviewModalProps = {
   onSave?: (values: responseReview) => void;
   initialValues?: Partial<responseReview> | null;
   canEdit?: boolean;
+  showDeleteButton?: boolean;
+  onDelete?: (erase: boolean) => void;
 };
 
-export function ReviewModal({ open, onClose, onSave, initialValues, canEdit = true }: ReviewModalProps) {
+type Errors = {
+  title?: string;
+  body?: string;
+  rating?: string;
+};
+
+export function ReviewModal({
+  open,
+  onClose,
+  onSave,
+  initialValues,
+  canEdit = true,
+  showDeleteButton = false,
+  onDelete
+}: ReviewModalProps) {
   const [title, setTitle] = useState(initialValues?.title ?? '');
   const [body, setBody] = useState(initialValues?.body ?? '');
   const [rating, setRating] = useState(initialValues?.rating ?? 0);
   const [isPublic, setIsPublic] = useState(initialValues?.isPublic ?? true);
   const [status, setStatus] = useState<ReviewStatus>(initialValues?.status ?? 'DRAFT');
+  const [errors, setErrors] = useState<Errors>({});
+
+  useEffect(() => {
+    if (!open) return;
+
+    setTitle(initialValues?.title ?? '');
+    setBody(initialValues?.body ?? '');
+    setRating(initialValues?.rating ?? 0);
+    setIsPublic(initialValues?.isPublic ?? true);
+    setStatus(initialValues?.status ?? 'DRAFT');
+    setErrors({});
+  }, [open, initialValues]);
 
   if (!open) return null;
 
@@ -53,17 +83,59 @@ export function ReviewModal({ open, onClose, onSave, initialValues, canEdit = tr
   const isReadOnly = !canEdit;
   const labelStatus = status === 'PUBLISHED' ? 'Publicar' : 'Salvar';
 
+  function validate(): boolean {
+    const newErrors: Errors = {};
+
+    if (!title.trim()) {
+      newErrors.title = 'Título é obrigatório.';
+    }
+
+    if (!body.trim()) {
+      newErrors.body = 'Opinião é obrigatória.';
+    }
+
+    if (isPublic && status === 'PUBLISHED' && rating <= 0) {
+      newErrors.rating = 'Dê uma nota para reviews públicas publicadas.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
   function handleSave() {
     if (isReadOnly) return;
+    if (!validate()) return;
 
-    onSave({
-      title,
-      body,
+    onSave?.({
+      title: title.trim(),
+      body: body.trim(),
       rating,
       isPublic,
       status
     });
+
     onClose();
+  }
+
+  function handleClear() {
+    if (isReadOnly) return;
+
+    setTitle('');
+    setBody('');
+    setRating(0);
+    setIsPublic(true);
+    setStatus('DRAFT');
+    setErrors({});
+  }
+
+  function handleDeleteClick() {
+    const confirmed = window.confirm('Tem certeza que deseja excluir sua review?');
+
+    onDelete?.(confirmed);
+
+    if (confirmed) {
+      onClose();
+    }
   }
 
   return (
@@ -104,6 +176,8 @@ export function ReviewModal({ open, onClose, onSave, initialValues, canEdit = tr
                 );
               })}
             </StarsRow>
+
+            {errors.rating && <ErrorText>{errors.rating}</ErrorText>}
           </FieldGroup>
 
           {/* Título */}
@@ -115,6 +189,7 @@ export function ReviewModal({ open, onClose, onSave, initialValues, canEdit = tr
               placeholder='Dê um título para sua avaliação'
               disabled={isReadOnly}
             />
+            {errors.title && <ErrorText>{errors.title}</ErrorText>}
           </FieldGroup>
 
           {/* Corpo / Opinião */}
@@ -127,6 +202,7 @@ export function ReviewModal({ open, onClose, onSave, initialValues, canEdit = tr
               rows={5}
               disabled={isReadOnly}
             />
+            {errors.body && <ErrorText>{errors.body}</ErrorText>}
           </FieldGroup>
 
           {/* Público / privado */}
@@ -176,6 +252,19 @@ export function ReviewModal({ open, onClose, onSave, initialValues, canEdit = tr
         </ModalBody>
 
         <ModalFooter>
+          {/* deletar (visível via prop + só se puder editar) */}
+          {!isReadOnly && showDeleteButton && (
+            <DeleteButton type='button' onClick={handleDeleteClick}>
+              Deletar review
+            </DeleteButton>
+          )}
+
+          {!isReadOnly && (
+            <CancelButton type='button' onClick={handleClear}>
+              Limpar campos
+            </CancelButton>
+          )}
+
           <CancelButton type='button' onClick={onClose}>
             Fechar
           </CancelButton>

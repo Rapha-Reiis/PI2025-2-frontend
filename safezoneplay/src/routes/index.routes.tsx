@@ -1,4 +1,5 @@
 import MainLayout from '@layout/MainLayout';
+import { VerifyEmailPage } from '@pages/EmailPage/EmailConfirmationPage';
 import GamePage from '@pages/Game/GamePage';
 import HomePage from '@pages/Home/HomePage';
 import StartPage from '@pages/Login/StartPage';
@@ -16,6 +17,7 @@ const MainRoutes = () => {
         <Route path='/search/:value' element={<SearchResultPage />} />
         <Route path='/premium' element={<PremiumPaymentPage />} />
         <Route path='/perfil' element={<Perfil />} />
+        <Route path='/verify-email' element={<VerifyEmailPage />} />
       </Route>
       <Route path='/start/:type' element={<StartPage />} />
     </Routes>

@@ -148,7 +148,16 @@ export const FavoriteTitle = styled('span', {
 
 export const FavoriteCard = styled('div', {
   borderRadius: '12px',
-  overflow: 'hidden'
+  overflow: 'hidden',
+  position: 'relative',
+  padding: '4px',
+  background: 'linear-gradient(145deg, #4b2a63, #2a1a3f)',
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+
+  '&:hover': {
+    transform: 'translateY(-3px) scale(1.02)',
+    boxShadow: '0 0 14px rgba(128, 90, 213, 0.35)'
+  }
 });
 
 export const FavoriteGameName = styled('div', {
@@ -164,7 +173,15 @@ export const FavoriteImage = styled('img', {
   width: '150px',
   height: '220px',
   objectFit: 'cover',
-  display: 'block'
+  display: 'block',
+  cursor: 'pointer',
+  borderRadius: '10px',
+  transition: 'transform 0.25s ease, filter 0.25s ease',
+
+  [`${FavoriteCard}:hover &`]: {
+    transform: 'scale(1.05)',
+    filter: 'brightness(1.06)'
+  }
 });
 
 export const SectionTitle = styled('h2', {

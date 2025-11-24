@@ -192,6 +192,7 @@ export default function Perfil() {
 
                 <FavoriteCard>
                   <FavoriteImage
+                    onClick={() => navigate(`/game/${userData?.favoriteGame?.id ?? 3328}`)}
                     src={
                       userData?.favoriteGame?.background ??
                       'https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg'

@@ -30,7 +30,7 @@ const Nav = styled('nav', {
     display: 'flex',
     justifyContent: 'center',
     paddingBottom: '1rem',
-    cursor: "pointer",
+    cursor: 'pointer',
 
     img: {
       maxWidth: '100%'
@@ -148,6 +148,22 @@ const NavItem = styled('li', {
     fontSize: '$text1',
     textDecoration: 'none',
     transition: 'color 0.3s',
+    '&:hover': {
+      color: '$brand5'
+    }
+  },
+
+  '& p': {
+    width: 'max-content',
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: '5px',
+    gap: '0.5rem',
+    color: 'white',
+    fontSize: '$text1',
+    textDecoration: 'none',
+    transition: 'color 0.3s',
+    cursor: 'pointer',
     '&:hover': {
       color: '$brand5'
     }

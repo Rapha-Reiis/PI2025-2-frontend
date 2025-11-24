@@ -5,6 +5,7 @@ import {
   GameDescription,
   GameGallery,
   GameInfos,
+  ReviewButton,
   ReviewContainer,
   StyledGameContainer,
   StyledGameDetailsContainer,
@@ -22,20 +23,51 @@ import { RiBookShelfLine } from 'react-icons/ri';
 import useAuth from '@hooks/useAuth';
 import { ReviewCard } from '@components/ReviewCard/ReviewCard.component';
 import useReview from '@hooks/useReview';
-import type { IReviewResponse } from '@interfaces/review.interface';
+import type { ICreateReview, IReviewResponse } from '@interfaces/review.interface';
 import { ReviewModal, type responseReview, type ReviewStatus } from '@components/Modal/reviewModal/reviewModal';
+import { toast } from 'react-toastify';
 
 const GamePage = () => {
   const param = useParams();
   const { userData, userLoading } = useAuth();
   const { getGamesByID, gameByID, gameLoading, handleGameStatus } = useGames();
-  const { reviewFeed, reviewlistFeed } = useReview();
+  const {
+    reviewFeed,
+    reviewlistFeed,
+    CreateLike,
+    reviewUpdate,
+    DeleteLike,
+    createReview,
+    deleteReview,
+    reviewByUserAndGame,
+    reviewByUser,
+    setReviewByUser
+  } = useReview();
   const [page, setPage] = useState(1);
+  const [onDelete, setOndelete] = useState(false);
   const [ReviewModalOpen, setReviewModalOpen] = useState(false);
   const [selectReview, setSelectReview] = useState<Partial<responseReview | null>>(null);
+  const [canEditReview, setCanEditReview] = useState(false);
+  const isEmailVerified = !!userData?.email_verified;
+
+  function ensureEmailVerified() {
+    if (!isEmailVerified) {
+      toast.warning('Confirme o email para utilizar essa função', {
+        style: {
+          color: '#000',
+          fontWeight: 'bold'
+        }
+      });
+      return false;
+    }
+
+    return true;
+  }
 
   function openReviewModal(review: IReviewResponse) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setCanEditReview(false);
 
     setSelectReview({
       body: review.body,
@@ -49,6 +81,133 @@ const GamePage = () => {
     document.body.style.overflow = 'hidden';
   }
 
+  async function deletarReview(erase: boolean) {
+    if (!erase || !reviewByUser?.id) return;
+
+    const userId = userData?.id;
+    if (!userId) return;
+
+    try {
+      await deleteReview({ reviewId: reviewByUser.id });
+
+      await reviewlistFeed({
+        gameId: Number(param.id),
+        limit: 4,
+        page,
+        userId
+      });
+
+      await reviewByUserAndGame({
+        gameId: Number(param.id),
+        userId
+      });
+
+      console.log('DEPOIS DE DELETAR', reviewByUser);
+
+      setReviewByUser(null);
+      setOndelete(false);
+      setReviewModalOpen(false);
+      document.body.style.overflow = 'auto';
+    } catch {
+      return;
+    }
+  }
+
+  function openCreateReviewMoal() {
+    if (userData?.premium === false) {
+      toast.warn('Você precisa ser premium para escrever um review', { style: { color: '#000', fontWeight: 'bold' } });
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (reviewByUser) {
+      setOndelete(true);
+      setSelectReview({
+        body: reviewByUser.body,
+        isPublic: reviewByUser.isPublic,
+        rating: reviewByUser.rating,
+        status: reviewByUser.status as ReviewStatus,
+        title: reviewByUser.title
+      });
+    } else {
+      setSelectReview(null);
+    }
+
+    setCanEditReview(true);
+    setReviewModalOpen(true);
+
+    document.body.style.overflow = 'hidden';
+  }
+
+  async function HandlecreateReview(data: IReviewResponse) {
+    const userId = userData?.id;
+    if (!userId) return;
+
+    const review: ICreateReview = {
+      gameId: Number(param.id),
+      body: data.body,
+      isPublic: data.isPublic,
+      status: data.status as ReviewStatus,
+      title: data.title,
+      rating: data.rating,
+      userId
+    };
+
+    try {
+      if (reviewByUser) {
+        await reviewUpdate(review, reviewByUser.id);
+      } else {
+        await createReview(review);
+      }
+      // Vou deixar comentado aqui o fluxo que estou seguindo
+
+      // Recarrega a lista de reviews
+      await reviewlistFeed({
+        gameId: Number(param.id),
+        limit: 4,
+        page,
+        userId
+      });
+
+      // Recarrega a review do usuário pra mudar o texto do botão
+      await reviewByUserAndGame({
+        gameId: Number(param.id),
+        userId
+      });
+
+      // Fecha o modal
+      setReviewModalOpen(false);
+      document.body.style.overflow = 'auto';
+      setOndelete(true); // se quiser deixar o botão de deletar sempre que tiver review
+    } catch {
+      toast.error('Erro ao salvar review, tente novamente.');
+    }
+  }
+
+  async function likedAndRemoveLike(like: boolean, reviewId: string) {
+    const userId = userData?.id;
+    if (!userId) {
+      toast.error('Não foi possível realizar essa ação. Tente novamente mais tarde');
+      return;
+    }
+
+    console.log('like (estado atual antes do clique): ', like, 'reviewId: ', reviewId, 'userId: ', userId);
+
+    if (like) {
+      await DeleteLike({ reviewId, userId });
+    } else {
+      await CreateLike({ userId, reviewId });
+    }
+
+    await reviewlistFeed({
+      gameId: Number(param.id),
+      limit: 4,
+      page,
+      userId
+    });
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!param.id || userLoading || !userData) return;
@@ -60,6 +219,11 @@ const GamePage = () => {
       page,
       userId: userData.id
     });
+
+    reviewByUserAndGame({
+      gameId: Number(param.id),
+      userId: userData.id
+    });
   }, [param.id, userData, userLoading, page]);
 
   return (
@@ -67,12 +231,15 @@ const GamePage = () => {
       {ReviewModalOpen && (
         <ReviewModal
           open={ReviewModalOpen}
-          canEdit={false}
+          canEdit={canEditReview}
           initialValues={selectReview ?? undefined}
           onClose={() => {
             setReviewModalOpen(false);
             document.body.style.overflow = 'auto';
           }}
+          showDeleteButton={onDelete}
+          onDelete={(data: boolean) => deletarReview(data)}
+          onSave={(data) => HandlecreateReview(data as IReviewResponse)}
         />
       )}
       <StyledGamePageMain
@@ -179,6 +346,7 @@ const GamePage = () => {
                   {reviewFeed.map((review: IReviewResponse) => (
                     <ReviewCard
                       key={review.reviewId}
+                      reviewId={review.reviewId}
                       title={review.title}
                       body={review.body}
                       username={review.author.username}
@@ -190,7 +358,7 @@ const GamePage = () => {
                       onClick={() => {
                         openReviewModal(review);
                       }}
-                      onToggleLike={(data) => console.log(data)}
+                      onToggleLike={(reviewId, like) => likedAndRemoveLike(like, reviewId)}
                     />
                   ))}
 
@@ -216,15 +384,17 @@ const GamePage = () => {
                 </li> */}
 
                   <li
-                    onClick={() =>
+                    onClick={() => {
+                      if (!ensureEmailVerified()) return;
+
                       handleGameStatus(
                         gameByID?.userGame?.status,
                         'BACKLOG',
                         userData!.id,
                         gameByID?.userGame?.userGameId,
                         Number(param.id)
-                      )
-                    }
+                      );
+                    }}
                     className={gameByID?.userGame?.status === 'BACKLOG' ? 'backlog' : ''}
                     key={'addToBacklog'}
                   >
@@ -233,15 +403,17 @@ const GamePage = () => {
                   </li>
 
                   <li
-                    onClick={() =>
+                    onClick={() => {
+                      if (!ensureEmailVerified()) return;
+
                       handleGameStatus(
                         gameByID?.userGame?.status,
                         'PLAYING',
                         userData!.id,
                         gameByID?.userGame?.userGameId,
                         Number(param.id)
-                      )
-                    }
+                      );
+                    }}
                     className={gameByID?.userGame?.status === 'PLAYING' ? 'playing' : ''}
                     key={'playing'}
                   >
@@ -250,15 +422,17 @@ const GamePage = () => {
                   </li>
 
                   <li
-                    onClick={() =>
+                    onClick={() => {
+                      if (!ensureEmailVerified()) return;
+
                       handleGameStatus(
                         gameByID?.userGame?.status,
                         'FINISHED',
                         userData!.id,
                         gameByID?.userGame?.userGameId,
                         Number(param.id)
-                      )
-                    }
+                      );
+                    }}
                     className={gameByID?.userGame?.status === 'FINISHED' ? 'finished' : ''}
                     key={'addToFinished'}
                   >
@@ -267,15 +441,17 @@ const GamePage = () => {
                   </li>
 
                   <li
-                    onClick={() =>
+                    onClick={() => {
+                      if (!ensureEmailVerified()) return;
+
                       handleGameStatus(
                         gameByID?.userGame?.status,
                         'DROPPED',
                         userData!.id,
                         gameByID?.userGame?.userGameId,
                         Number(param.id)
-                      )
-                    }
+                      );
+                    }}
                     className={gameByID?.userGame?.status === 'DROPPED' ? 'dropped' : ''}
                     key={'abandoned'}
                   >
@@ -293,6 +469,9 @@ const GamePage = () => {
                   <p>Avaliar</p>
                 </li> */}
                 </ul>
+                <ReviewButton onClick={() => openCreateReviewMoal()}>
+                  {reviewByUser ? 'Atualizar review' : 'Deixar minha review'}
+                </ReviewButton>
               </GameAsideCard>
             </StyledGameContainer>
           )}

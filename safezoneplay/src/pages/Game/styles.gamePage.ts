@@ -188,6 +188,41 @@ const ReviewContainer = styled('div', {
   }
 });
 
+const ReviewButton = styled('button', {
+  width: '90%',
+  margin: '1.5rem auto 1rem auto', // centraliza
+  padding: '0.9rem 1rem',
+
+  borderRadius: '10px',
+
+  background: 'transparent',
+  border: '2px solid $brand4',
+  color: '$whiteFixed',
+
+  fontSize: '0.95rem',
+  fontWeight: 600,
+  letterSpacing: '0.5px',
+
+  cursor: 'pointer',
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  transition: '0.25s ease',
+
+  '&:hover': {
+    background: 'rgba(255,255,255,0.08)',
+    transform: 'translateY(-2px)',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.35)'
+  },
+
+  '&:active': {
+    transform: 'translateY(0)',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
+  }
+});
+
 export {
   StyledGamePageMain,
   StyledGameDetailsContainer,
@@ -197,5 +232,6 @@ export {
   GameGallery,
   GameInfos,
   GameAsideCard,
-  ReviewContainer
+  ReviewContainer,
+  ReviewButton
 };

@@ -18,7 +18,6 @@ const PremiumPaymentPage = () => {
         userId: userData?.id,
         type: 'pix'
       } as { email: string; userId: string; type: string });
-      console.log(subscribeRequest);
       const qrCode = `data:image/png;base64,${subscribeRequest.data.qr_code_base64}`;
 
       setQrCodeUrl(qrCode);

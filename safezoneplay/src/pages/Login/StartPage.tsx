@@ -1,12 +1,20 @@
 import LoginForm from '@components/Forms/LoginForm/LoginForm.component';
 import RegisterForm from '@components/Forms/RegisterForm/RegisterForm.component';
 import { Container } from '@styles/global';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import StyledLoginPageContainer from './styles';
 import logo from '@assets/sfp_logo.svg';
+import useAuth from '@hooks/useAuth';
+import { useEffect } from 'react';
 
 const StartPage = () => {
   const { type } = useParams();
+  const navigate = useNavigate();
+  const { userData, userLoading } = useAuth();
+
+  useEffect(() => {
+    if (userData) navigate('/home');
+  }, [userData, userLoading]);
 
   return (
     <StyledLoginPageContainer>

@@ -72,7 +72,7 @@ const NavBar = () => {
               <a href='/home'>{<GrHomeRounded />}Home</a>
             </NavItem>
             <NavItem>
-              <a href='#about'>{<GrGamepad />}Meus Jogos</a>
+              <a href='/perfil'>{<GrGamepad />}Meus Jogos</a>
             </NavItem>
             <NavItem>
               <a href='/premium'>{<MdOutlineWorkspacePremium />}Area Premium</a>

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { AuthContext } from '@contexts/Auth.context';
 import type { IDefaultProviderProp, IErrorResponse } from '@interfaces/providerProps.interface';
 import type { IJWTToken, ILoginRequest } from '@interfaces/login.interface';
@@ -17,12 +16,7 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
 
   useEffect(() => {
     const token = localStorage.getItem('@SafeZoneToken');
-
-    if (token === null || token == undefined) {
-      navigate('/start/login');
-      toast('Você não está logado. Faça login novamente.');
-      return;
-    }
+    if (!token) return;
 
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
 

@@ -48,6 +48,21 @@ const GamePage = () => {
   const [ReviewModalOpen, setReviewModalOpen] = useState(false);
   const [selectReview, setSelectReview] = useState<Partial<responseReview | null>>(null);
   const [canEditReview, setCanEditReview] = useState(false);
+  const isEmailVerified = !!userData?.email_verified;
+
+  function ensureEmailVerified() {
+    if (!isEmailVerified) {
+      toast.warning('Confirme o email para utilizar essa função', {
+        style: {
+          color: '#000',
+          fontWeight: 'bold'
+        }
+      });
+      return false;
+    }
+
+    return true;
+  }
 
   function openReviewModal(review: IReviewResponse) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -369,15 +384,17 @@ const GamePage = () => {
                 </li> */}
 
                   <li
-                    onClick={() =>
+                    onClick={() => {
+                      if (!ensureEmailVerified()) return;
+
                       handleGameStatus(
                         gameByID?.userGame?.status,
                         'BACKLOG',
                         userData!.id,
                         gameByID?.userGame?.userGameId,
                         Number(param.id)
-                      )
-                    }
+                      );
+                    }}
                     className={gameByID?.userGame?.status === 'BACKLOG' ? 'backlog' : ''}
                     key={'addToBacklog'}
                   >
@@ -386,15 +403,17 @@ const GamePage = () => {
                   </li>
 
                   <li
-                    onClick={() =>
+                    onClick={() => {
+                      if (!ensureEmailVerified()) return;
+
                       handleGameStatus(
                         gameByID?.userGame?.status,
                         'PLAYING',
                         userData!.id,
                         gameByID?.userGame?.userGameId,
                         Number(param.id)
-                      )
-                    }
+                      );
+                    }}
                     className={gameByID?.userGame?.status === 'PLAYING' ? 'playing' : ''}
                     key={'playing'}
                   >
@@ -403,15 +422,17 @@ const GamePage = () => {
                   </li>
 
                   <li
-                    onClick={() =>
+                    onClick={() => {
+                      if (!ensureEmailVerified()) return;
+
                       handleGameStatus(
                         gameByID?.userGame?.status,
                         'FINISHED',
                         userData!.id,
                         gameByID?.userGame?.userGameId,
                         Number(param.id)
-                      )
-                    }
+                      );
+                    }}
                     className={gameByID?.userGame?.status === 'FINISHED' ? 'finished' : ''}
                     key={'addToFinished'}
                   >
@@ -420,15 +441,17 @@ const GamePage = () => {
                   </li>
 
                   <li
-                    onClick={() =>
+                    onClick={() => {
+                      if (!ensureEmailVerified()) return;
+
                       handleGameStatus(
                         gameByID?.userGame?.status,
                         'DROPPED',
                         userData!.id,
                         gameByID?.userGame?.userGameId,
                         Number(param.id)
-                      )
-                    }
+                      );
+                    }}
                     className={gameByID?.userGame?.status === 'DROPPED' ? 'dropped' : ''}
                     key={'abandoned'}
                   >

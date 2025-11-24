@@ -9,15 +9,20 @@ import { CgProfile } from 'react-icons/cg';
 import { MdOutlineWorkspacePremium } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import useGames from '@hooks/useGames';
+import useAuth from '@hooks/useAuth';
+import { toast } from 'react-toastify';
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { gameSearchValue, setGameSearchValue } = useGames();
+  const { userData, userLoading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScroll = useRef(0);
 
   useEffect(() => {
+    if (userLoading || !userData?.id) return;
+
     const handleScroll = () => {
       const currentScroll = window.pageYOffset;
 
@@ -72,8 +77,20 @@ const NavBar = () => {
             <NavItem>
               <a href='/premium'>{<MdOutlineWorkspacePremium />}Area Premium</a>
             </NavItem>
-            <NavItem>
-              <a href='/perfil'>{<CgProfile />}Perfil</a>
+            <NavItem
+              onClick={() => {
+                if (!userData?.email_verified) {
+                  toast.warning('Confirme o email para utilizar essa função', {
+                    style: { color: '#000', fontWeight: 'bold' }
+                  });
+                  return;
+                }
+
+                navigate('/perfil');
+              }}
+            >
+              <CgProfile />
+              <p>Perfil</p>
             </NavItem>
           </NavLinks>
         </Nav>

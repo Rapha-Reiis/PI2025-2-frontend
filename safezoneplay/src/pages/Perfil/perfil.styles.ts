@@ -1,4 +1,3 @@
-// perfil.styles.ts
 import { styled } from '@styles/stitches.config';
 
 export const Page = styled('div', {
@@ -30,7 +29,7 @@ export const Avatar = styled('img', {
   borderRadius: '999px',
   background: '#2f2f4c',
   flexShrink: 0,
-  objectFit: 'cover',
+  objectFit: 'cover'
 });
 export const UserInfo = styled('div', {
   maxWidth: '520px',
@@ -141,7 +140,10 @@ export const FavoriteTitle = styled('span', {
   letterSpacing: '0.08em',
   textTransform: 'uppercase',
   marginBottom: '8px',
-  color: '#e5d4ff'
+  color: '#e5d4ff',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis'
 });
 
 export const FavoriteCard = styled('div', {
@@ -181,8 +183,8 @@ export const Tab = styled('button', {
   all: 'unset',
   cursor: 'pointer',
   borderRadius: '999px',
-  padding: '10px 34px', // 🔥 ALTURA + LARGURA MAIORES
-  fontSize: '13px', // 🔥 texto mais legível
+  padding: '10px 34px',
+  fontSize: '13px',
   fontWeight: 600,
   color: '#ffffff',
   border: '1px solid transparent',
@@ -193,26 +195,34 @@ export const Tab = styled('button', {
     filter: 'brightness(1.05)'
   },
 
+  '&:disabled': {
+    opacity: 0.4,
+    cursor: 'not-allowed',
+    filter: 'none',
+    transform: 'none'
+  },
+
   variants: {
     color: {
       jogando: { background: '#00b341' },
       backlog: { background: '#505050' },
       finalizado: { background: '#916C1E' },
-      abandonado: { background: '#6E2013' }
+      abandonado: { background: '#6E2013' },
+      tudo: { background: '#3a3a3a' }
     },
     active: {
       true: {
         boxShadow: '0 0 0 2px #ffffff33',
         transform: 'translateY(-1px)'
-      },
-      false: {}
+      }
     }
-  },
-
-  defaultVariants: {
-    active: false,
-    color: 'backlog'
   }
+});
+
+export const ReviewGrid = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))',
+  gap: '24px'
 });
 
 export const SearchRow = styled('div', {
@@ -280,7 +290,15 @@ export const GameCard = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '6px'
+  cursor: 'pointer',
+  gap: '6px',
+  position: 'relative',
+
+  transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+
+  '&:hover': {
+    transform: 'scale(1.03)'
+  }
 });
 
 export const GameImage = styled('img', {
@@ -294,15 +312,10 @@ export const GameImage = styled('img', {
 export const GameTitle = styled('div', {
   marginTop: '4px',
   fontSize: '12px',
-  fontWeight: 500
-});
+  fontWeight: 500,
 
-export const PlatformRow = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px'
-});
-
-export const PlatformIcon = styled('span', {
-  fontSize: '12px'
+  maxWidth: '210px',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis'
 });

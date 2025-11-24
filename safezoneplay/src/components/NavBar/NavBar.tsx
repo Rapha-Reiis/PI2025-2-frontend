@@ -73,7 +73,7 @@ const NavBar = () => {
               <a href='/premium'>{<MdOutlineWorkspacePremium />}Area Premium</a>
             </NavItem>
             <NavItem>
-              <a href='#services'>{<CgProfile />}Perfil</a>
+              <a href='/perfil'>{<CgProfile />}Perfil</a>
             </NavItem>
           </NavLinks>
         </Nav>

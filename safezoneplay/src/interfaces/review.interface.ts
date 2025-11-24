@@ -18,8 +18,8 @@ export interface IReviewListParam {
 export interface IReviewListUserParam {
   page: number;
   limit: number;
-  status: 'DRAFT' | 'PUBLISHED';
-  title: string;
+  status?: 'DRAFT' | 'PUBLISHED';
+  title?: string;
 }
 
 export interface IDeleteReviewParam {
@@ -88,7 +88,7 @@ export interface IReviewContextProps {
   createReview: (data: ICreateReview) => Promise<void>;
   reviewUpdate: (data: IReviewUpdateParam, reviewId: string) => Promise<void>;
   reviewlistFeed: (data: IReviewListParam) => Promise<void>;
-  reviewListByUser: (data: IReviewListParam) => Promise<void>;
+  reviewListByUser: (data: IReviewListUserParam, userId: string) => Promise<void>;
   deleteReview: (data: IDeleteReviewParam) => Promise<void>;
   CreateLike: (data: IReviewLikeParam) => Promise<void>;
   DeleteLike: (data: IReviewLikeParam) => Promise<void>;

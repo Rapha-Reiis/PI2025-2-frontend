@@ -6,6 +6,7 @@ import type {
   IResponse2,
   IReviewLikeParam,
   IReviewListParam,
+  IReviewListUserParam,
   IReviewParam,
   IReviewResponse,
   IReviewUpdateParam
@@ -59,11 +60,16 @@ const ReviewProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const reviewListByUser = async (data: IReviewListParam) => {
-    const { limit, page, userId } = data;
+  const reviewListByUser = async (data: IReviewListUserParam, userId: string) => {
+    const { limit, page, status, title } = data;
+
+    let url = `/review/list/user/${userId}?page=${page}&limit=${limit}`;
+    if (status) url += `&status=${status}`;
+    if (title) url += `&title=${title}`;
+
     try {
       setReviewLoading(true);
-      const getReview = await api.get(`/review/list/user/${userId}?page=${page}&limit=${limit}`);
+      const getReview = await api.get(url);
       setReviewUser(getReview.data);
     } catch (error) {
       handleAxiosErrors(error);

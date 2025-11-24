@@ -100,7 +100,7 @@ const GamePage = () => {
 
   function openCreateReviewMoal() {
     if (userData?.premium === false) {
-      toast.warn('Você precisa ser premium para escrever um review');
+      toast.warn('Você precisa ser premium para escrever um review', { style: { color: '#000', fontWeight: 'bold' } });
       return;
     }
 

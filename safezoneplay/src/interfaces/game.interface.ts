@@ -1,4 +1,6 @@
 export interface Game {
+  userGameId?: string;
+  note?: string | null;
   idGame: number;
   name: string;
   slug: string;
@@ -196,7 +198,7 @@ export interface IGameContextProps {
   setGameByID: React.Dispatch<React.SetStateAction<IGameByIDResponse>>;
   getUserGames: (userID: string, page: number, limitPerPage: number, status?: string, search?: string) => Promise<void>;
   createGameStatus: (status: string, userId: string, gameId: number) => Promise<void>;
-  updateGameStatus: (status: string, userGameID: string) => Promise<void>;
+  updateGameStatus: (userGameID: string, status?: string, note?: string) => Promise<void>;
   deleteGameStatus: (userGameID: string) => Promise<void>;
   handleGameStatus: (
     actualStatus: TGameStatus,

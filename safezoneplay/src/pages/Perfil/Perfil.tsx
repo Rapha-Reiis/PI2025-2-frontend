@@ -44,11 +44,14 @@ import useReview from '@hooks/useReview';
 import { ReviewCard } from '@components/ReviewCard/ReviewCard.component';
 import type { IReviewResponse } from '@interfaces/review.interface';
 import { toast } from 'react-toastify';
+import { GameNoteModal } from '@components/Modal/gameNoteModal/gameNoteModal';
+import { useGameNoteModal } from './modalNoteFunction';
 
 export default function Perfil() {
   const navigate = useNavigate();
   const { userData, userLoading } = useAuth();
-  const { getTotalStatusUser, totalGameStatusUser, getUserGames, userGames, gameLoading } = useGames();
+  const { getTotalStatusUser, totalGameStatusUser, getUserGames, userGames, gameLoading, updateGameStatus } =
+    useGames();
   const { reviewListByUser, reviewUser, reviewLoading } = useReview();
 
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -59,9 +62,18 @@ export default function Perfil() {
   const [menuOpenId, setMenuOpenId] = useState<number | null>(null);
   const cardAreaRef = useRef<HTMLDivElement | null>(null);
 
-  function handleClickOutside(e: MouseEvent) {
+  const { noteModalOpen, noteBody, setNoteBody, openNoteModal, closeNoteModal, handleSaveNote } = useGameNoteModal({
+    userId: userData?.id,
+    statusFilter,
+    search,
+    updateGameStatus,
+    getUserGames
+  });
+
+  function handleClickOutside() {
     if (menuOpenId !== null) setMenuOpenId(null);
   }
+
   useEffect(() => {
     if (menuOpenId === null) return;
 
@@ -311,7 +323,8 @@ export default function Perfil() {
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        openNoteModal(() => console.log('oi'));
+                        openNoteModal(game.userGameId!, game.note!);
+                        setMenuOpenId(null);
                       }}
                       style={{
                         position: 'absolute',
@@ -320,7 +333,7 @@ export default function Perfil() {
                         background: '#2f2f4c',
                         padding: '8px 12px',
                         borderRadius: '8px',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
                         zIndex: 10,
                         cursor: 'pointer'
                       }}
@@ -336,6 +349,16 @@ export default function Perfil() {
             </CardsGrid>
           )}
         </>
+      )}
+
+      {noteModalOpen && (
+        <GameNoteModal
+          open={noteModalOpen}
+          body={noteBody}
+          onChangeBody={setNoteBody}
+          onSave={handleSaveNote}
+          onClose={closeNoteModal}
+        />
       )}
     </Page>
   );

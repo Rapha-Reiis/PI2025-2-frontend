@@ -11,6 +11,7 @@ import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
 import type { AxiosResponse } from 'axios';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const GameProvider = ({ children }: IDefaultProviderProp) => {
   const [gameLoading, setGameLoading] = useState(false);
@@ -74,7 +75,11 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     try {
       const userGameResponse: AxiosResponse<IUserGamesResponse> = await api.get(url);
       const onlyGamesField = userGameResponse.data.data
-        .map((result) => result.game)
+        .map((result) => ({
+          userGameId: result.id,
+          note: result.note,
+          ...result.game
+        }))
         .sort((a, b) => a.name.localeCompare(b.name));
       setUserGames(onlyGamesField);
       console.log(userGameResponse);
@@ -109,11 +114,13 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const updateGameStatus = async (status: string, userGameID: string) => {
+  const updateGameStatus = async (userGameID: string, status?: string, note?: string) => {
     console.log(status);
     try {
-      const gameStatusRespose = await api.put(`/profile/update/${userGameID}`, { status: status });
-      console.log(gameStatusRespose);
+      await api.put(`/profile/update/${userGameID}`, { status: status, note: note });
+      if (note) {
+        toast.success('Anotação atualizada com sucesso!');
+      }
     } catch (error) {
       handleAxiosErrors(error);
     }

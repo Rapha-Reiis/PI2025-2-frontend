@@ -25,14 +25,6 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('@SafeZoneToken');
-  //   if (!token) return;
-  //   api.defaults.headers.common.Authorization = `Bearer ${token}`;
-  //   const decodedToken = jwtDecode(token) as IJWTToken;
-  //   userLogged(decodedToken.id);
-  // }, []);
-
   const signIn = async (loginForm: ILoginRequest) => {
     try {
       const { data }: AxiosResponse = await api.post('/login', loginForm);
@@ -43,8 +35,17 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
       const decoded = jwtDecode<IJWTToken>(data.token);
       await userLogged(decoded.id);
 
+      const user = await userLogged(decoded.id);
+
       toast.success('Seja bem vindo!');
-      navigate('/home');
+      console.log(user);
+
+      if (user.email_verified === false) {
+        navigate('/verify-email');
+        return;
+      } else {
+        navigate('/home');
+      }
     } catch (error) {
       handleAxiosErrors(error);
     }
@@ -54,6 +55,7 @@ const AuthProvider = ({ children }: IDefaultProviderProp) => {
     try {
       const userDataRespose = await api.get(`/users/${id}`);
       setUserdata(userDataRespose.data);
+      return userDataRespose.data;
     } catch (error) {
       handleAxiosErrors(error);
     } finally {

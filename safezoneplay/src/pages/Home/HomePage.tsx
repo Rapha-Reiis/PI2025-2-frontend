@@ -23,7 +23,6 @@ const HomePage = () => {
     if (!userData?.id) return;
 
     getUserGames(userData.id, page, 10);
-    console.log(userGames);
   }, [userLoading, userData]);
 
   return (

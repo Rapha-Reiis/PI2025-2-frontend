@@ -10,7 +10,6 @@ import { MdOutlineWorkspacePremium } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import useGames from '@hooks/useGames';
 import useAuth from '@hooks/useAuth';
-import { toast } from 'react-toastify';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -74,21 +73,21 @@ const NavBar = () => {
             <NavItem>
               <a href='/perfil'>{<GrGamepad />}Meus Jogos</a>
             </NavItem>
-            <NavItem>
+            <NavItem
+            // onClick={() => {
+            //   if (!userData?.email_verified) {
+            //     toast.warning('Confirme o email para utilizar essa função', {
+            //       style: { color: '#000', fontWeight: 'bold' }
+            //     });
+            //     return;
+            //   }
+
+            //   navigate('/perfil');
+            // }}
+            >
               <a href='/premium'>{<MdOutlineWorkspacePremium />}Area Premium</a>
             </NavItem>
-            <NavItem
-              onClick={() => {
-                if (!userData?.email_verified) {
-                  toast.warning('Confirme o email para utilizar essa função', {
-                    style: { color: '#000', fontWeight: 'bold' }
-                  });
-                  return;
-                }
-
-                navigate('/perfil');
-              }}
-            >
+            <NavItem>
               <CgProfile />
               <p>Perfil</p>
 

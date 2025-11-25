@@ -13,7 +13,13 @@ const StartPage = () => {
   const { userData, userLoading } = useAuth();
 
   useEffect(() => {
-    if (userData) navigate('/home');
+    if (userData) {
+      if (userData.email_verified === false) {
+        navigate('/verify-email');
+      } else {
+        navigate('/home');
+      }
+    }
   }, [userData, userLoading]);
 
   return (

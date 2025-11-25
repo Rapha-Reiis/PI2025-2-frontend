@@ -9,15 +9,19 @@ import { CgProfile } from 'react-icons/cg';
 import { MdOutlineWorkspacePremium } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import useGames from '@hooks/useGames';
+import useAuth from '@hooks/useAuth';
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { gameSearchValue, setGameSearchValue } = useGames();
+  const { userData, userLoading, handleLogout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScroll = useRef(0);
 
   useEffect(() => {
+    if (userLoading || !userData?.id) return;
+
     const handleScroll = () => {
       const currentScroll = window.pageYOffset;
 
@@ -37,7 +41,7 @@ const NavBar = () => {
     <HeaderStyled style={{ transform: hidden ? 'translateY(-100%)' : 'translateY(0)' }}>
       <Container>
         <Nav>
-          <div className='nav-container-logo'>
+          <div className='nav-container-logo' onClick={() => navigate(`/home`)}>
             <img src={logo} alt='sfc_logo' />
           </div>
           <MenuContainer>
@@ -67,13 +71,29 @@ const NavBar = () => {
               <a href='/home'>{<GrHomeRounded />}Home</a>
             </NavItem>
             <NavItem>
-              <a href='#about'>{<GrGamepad />}Meus Jogos</a>
+              <a href='/perfil'>{<GrGamepad />}Meus Jogos</a>
             </NavItem>
-            <NavItem>
+            <NavItem
+            // onClick={() => {
+            //   if (!userData?.email_verified) {
+            //     toast.warning('Confirme o email para utilizar essa função', {
+            //       style: { color: '#000', fontWeight: 'bold' }
+            //     });
+            //     return;
+            //   }
+
+            //   navigate('/perfil');
+            // }}
+            >
               <a href='/premium'>{<MdOutlineWorkspacePremium />}Area Premium</a>
             </NavItem>
             <NavItem>
-              <a href='#services'>{<CgProfile />}Perfil</a>
+              <CgProfile />
+              <p>Perfil</p>
+
+              <div className='logout-dropdown'>
+                <p onClick={() => handleLogout()}>Logout</p>
+              </div>
             </NavItem>
           </NavLinks>
         </Nav>

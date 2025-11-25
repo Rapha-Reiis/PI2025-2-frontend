@@ -31,9 +31,15 @@ interface IGetUserDataResponse {
   name: string;
   email: string;
   username: string;
-  profile_image_url: string | undefined;
+  profile_image_url?: string | null;
   bio: string | undefined;
   premium: boolean;
+  favorite_GameId?: number | null;
+  favorite_name?: string | null;
+  favorite_url?: string | null;
+  plan_expires_at: Date;
+  email_verified: boolean;
+  email_verified_at: Date;
   role: 'USER' | 'ADMIN';
 }
 

@@ -30,6 +30,7 @@ const Nav = styled('nav', {
     display: 'flex',
     justifyContent: 'center',
     paddingBottom: '1rem',
+    cursor: 'pointer',
 
     img: {
       maxWidth: '100%'
@@ -127,6 +128,37 @@ const NavItem = styled('li', {
   display: 'flex',
   alignItems: 'center',
 
+  position: 'relative',
+
+  '.profile-trigger': {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    cursor: 'pointer'
+  },
+
+  '.logout-dropdown': {
+    position: 'absolute',
+    top: '40px',
+    right: 0,
+    background: '$brand1',
+    color: '$whiteFixed',
+    padding: '10px 15px',
+    borderRadius: '8px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    opacity: 0,
+    visibility: 'hidden',
+    transition: '0.2s ease-in-out',
+    boxShadow: '0 2px 9px rgba(0,0,0,0.15)',
+    zIndex: 50
+  },
+
+  '&:hover .logout-dropdown': {
+    opacity: 1,
+    visibility: 'visible'
+  },
+
   '& svg': {
     width: '20px',
     height: '20px',
@@ -147,6 +179,22 @@ const NavItem = styled('li', {
     fontSize: '$text1',
     textDecoration: 'none',
     transition: 'color 0.3s',
+    '&:hover': {
+      color: '$brand5'
+    }
+  },
+
+  '& p': {
+    width: 'max-content',
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: '5px',
+    gap: '0.5rem',
+    color: 'white',
+    fontSize: '$text1',
+    textDecoration: 'none',
+    transition: 'color 0.3s',
+    cursor: 'pointer',
     '&:hover': {
       color: '$brand5'
     }

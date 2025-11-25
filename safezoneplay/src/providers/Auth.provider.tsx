@@ -1,82 +1,100 @@
 import { AuthContext } from '@contexts/Auth.context';
-import type { IDefaultProviderProp, IErrorResponse } from '@interfaces/providerProps.interface';
+import type { IDefaultProviderProp } from '@interfaces/providerProps.interface';
 import type { IJWTToken, ILoginRequest } from '@interfaces/login.interface';
 import { api } from '@services/api';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import type { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import type { IGetUserDataResponse } from '@interfaces/users.interface';
+import handleAxiosErrors from '@utils/axiosErrorStandard';
+
+const TOKEN_KEY = '@SafeZoneToken';
 
 const AuthProvider = ({ children }: IDefaultProviderProp) => {
   const navigate = useNavigate();
   const [userData, setUserdata] = useState<IGetUserDataResponse | null>(null);
-  const [userLoading, setUserLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem('@SafeZoneToken');
-
-    if (token === null || token == undefined) {
-      navigate('/start/login');
-      toast('Você não está logado. Faça login novamente.');
-      return;
+  const setAuthHeader = (token: string | null) => {
+    if (token) {
+      api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    } else {
+      delete api.defaults.headers.common.Authorization;
     }
-
-    api.defaults.headers.common.Authorization = `Bearer ${token}`;
-
-    const decodedToken = jwtDecode(token) as IJWTToken;
-    console.log(decodedToken);
-
-    userLogged(decodedToken.id);
-  }, []);
+  };
 
   const signIn = async (loginForm: ILoginRequest) => {
     try {
       const { data }: AxiosResponse = await api.post('/login', loginForm);
-      localStorage.setItem('@SafeZoneToken', data.token);
-      navigate('/home');
+      localStorage.setItem(TOKEN_KEY, data.token);
+
+      setAuthHeader(data.token);
+
+      const decoded = jwtDecode<IJWTToken>(data.token);
+      await userLogged(decoded.id);
+
+      const user = await userLogged(decoded.id);
+
       toast.success('Seja bem vindo!');
-    } catch (error) {
-      const axiosError = error as AxiosError<IErrorResponse>;
-      if (axiosError.response) {
-        toast.error(axiosError.response.data.message);
-        console.error('Erro da API:', axiosError.response.data);
-      } else if (axiosError.request) {
-        toast.error('Servidor não respondeu. Tente novamente.');
-        console.error('Erro de rede:', axiosError.request);
+      console.log(user);
+
+      if (user.email_verified === false) {
+        navigate('/verify-email');
+        return;
       } else {
-        toast.error('Erro inesperado.');
-        console.error('Erro desconhecido:', axiosError.message);
+        navigate('/home');
       }
-      console.log(error);
+    } catch (error) {
+      handleAxiosErrors(error);
     }
   };
 
   const userLogged = async (id: string) => {
-    setUserLoading(true);
     try {
       const userDataRespose = await api.get(`/users/${id}`);
       setUserdata(userDataRespose.data);
+      return userDataRespose.data;
     } catch (error) {
-      const axiosError = error as AxiosError<IErrorResponse>;
-      if (axiosError.response) {
-        toast.error(axiosError.response.data.message);
-        console.error('Erro da API:', axiosError.response.data);
-      } else if (axiosError.request) {
-        toast.error('O Servidor não respondeu. Tente novamente.');
-        console.error('Erro de rede:', axiosError.request);
-      } else {
-        toast.error('Erro inesperado.');
-        console.error('Erro desconhecido:', axiosError.message);
-      }
-      console.log(error);
+      handleAxiosErrors(error);
     } finally {
       setUserLoading(false);
     }
   };
 
-  return <AuthContext.Provider value={{ signIn, userData, setUserdata, userLoading }}>{children}</AuthContext.Provider>;
+  const handleLogout = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    setAuthHeader(null);
+    setUserdata(null);
+
+    toast.success('Logout realizado com sucesso!');
+    navigate('/login');
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN_KEY);
+
+    if (!token) {
+      setUserLoading(false);
+      return;
+    }
+
+    setAuthHeader(token);
+
+    try {
+      const decoded = jwtDecode<IJWTToken>(token);
+      userLogged(decoded.id);
+    } catch {
+      handleLogout();
+    }
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ signIn, userData, setUserdata, userLoading, handleLogout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

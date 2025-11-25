@@ -1,8 +1,8 @@
 import { UserContext } from '@contexts/User.context';
-import type { IDefaultProviderProp, IErrorResponse } from '@interfaces/providerProps.interface';
+import type { IDefaultProviderProp } from '@interfaces/providerProps.interface';
 import { type ICreateUser } from '@interfaces/users.interface';
 import { api } from '@services/api';
-import type { AxiosError } from 'axios';
+import handleAxiosErrors from '@utils/axiosErrorStandard';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -11,22 +11,23 @@ const UserProvider = ({ children }: IDefaultProviderProp) => {
 
   const createUser = async (data: ICreateUser) => {
     try {
-      await api.post('/users', data);
-      navigate('/start/login');
-      toast.success('Usuário Criado. Você já pode se logar');
-    } catch (error) {
-      const axiosError = error as AxiosError<IErrorResponse>;
-      if (axiosError.response) {
-        toast.error(axiosError.response.data.message);
-        console.error('Erro da API:', axiosError.response.data);
-      } else if (axiosError.request) {
-        toast.error('Servidor não respondeu. Tente novamente.');
-        console.error('Erro de rede:', axiosError.request);
-      } else {
-        toast.error('Erro inesperado.');
-        console.error('Erro desconhecido:', axiosError.message);
+      const formData = new FormData();
+
+      formData.append('email', data.email);
+      formData.append('name', data.name);
+      formData.append('username', data.username);
+      formData.append('password', data.password);
+      formData.append('confirmPassword', data.confirmPassword);
+
+      if (data.profile_image_url instanceof File) {
+        formData.append('profile_image_url', data.profile_image_url);
       }
-      console.log(error);
+
+      await api.post('/users', formData);
+
+      toast.success('Usuário criado!');
+    } catch (error) {
+      handleAxiosErrors(error);
     }
   };
 

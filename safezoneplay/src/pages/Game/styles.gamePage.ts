@@ -146,6 +146,83 @@ const GameAsideCard = styled('div', {
   }
 });
 
+const ReviewContainer = styled('div', {
+  marginTop: '3rem',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  gap: '1.5rem',
+
+  h2: {
+    gridColumn: '1 / -1',
+    marginBottom: '1rem',
+    fontSize: '1.5rem',
+    fontWeight: '600'
+  },
+
+  '.page-number': {
+    color: '$brand5'
+  },
+
+  '.review-pagination': {
+    gridColumn: '1 / -1',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '1rem',
+    marginTop: '1rem',
+
+    button: {
+      padding: '0.5rem 1rem',
+      borderRadius: '6px',
+      backgroundColor: '$brand3',
+      border: 'none',
+      cursor: 'pointer',
+      color: 'white',
+      fontWeight: '500',
+
+      '&:disabled': {
+        backgroundColor: '#555',
+        cursor: 'not-allowed'
+      }
+    }
+  }
+});
+
+const ReviewButton = styled('button', {
+  width: '90%',
+  margin: '1.5rem auto 1rem auto', // centraliza
+  padding: '0.9rem 1rem',
+
+  borderRadius: '10px',
+
+  background: 'transparent',
+  border: '2px solid $brand4',
+  color: '$whiteFixed',
+
+  fontSize: '0.95rem',
+  fontWeight: 600,
+  letterSpacing: '0.5px',
+
+  cursor: 'pointer',
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  transition: '0.25s ease',
+
+  '&:hover': {
+    background: 'rgba(255,255,255,0.08)',
+    transform: 'translateY(-2px)',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.35)'
+  },
+
+  '&:active': {
+    transform: 'translateY(0)',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
+  }
+});
+
 export {
   StyledGamePageMain,
   StyledGameDetailsContainer,
@@ -154,5 +231,7 @@ export {
   GameDescription,
   GameGallery,
   GameInfos,
-  GameAsideCard
+  GameAsideCard,
+  ReviewContainer,
+  ReviewButton
 };

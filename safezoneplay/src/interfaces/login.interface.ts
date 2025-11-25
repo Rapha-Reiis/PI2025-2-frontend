@@ -18,6 +18,7 @@ interface ILoginContextProps {
   userData: IGetUserDataResponse | null;
   setUserdata: React.Dispatch<React.SetStateAction<IGetUserDataResponse | null>>;
   userLoading: boolean;
+  handleLogout: () => void;
 }
 
 interface IJWTToken extends JwtPayload {

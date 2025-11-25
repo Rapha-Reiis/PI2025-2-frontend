@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Container } from '@styles/global';
 import { GameCardList } from '@components/GameCard/GameCard.component';
 import { StyledMain } from './styles.homePage';
@@ -22,7 +23,6 @@ const HomePage = () => {
     if (!userData?.id) return;
 
     getUserGames(userData.id, page, 10);
-    console.log(userGames);
   }, [userLoading, userData]);
 
   return (
@@ -34,8 +34,15 @@ const HomePage = () => {
         </section>
 
         <section id='cardlist-myGames'>
-          <h2>Meu Jogos ({userGames.length})</h2>
-          {gameLoading || userLoading ? <Loading /> : <GameCardList gameList={userGames} direction='grid' />}
+          <h2>Meu Jogos</h2>
+          {gameLoading || userLoading ? (
+            <Loading />
+          ) : userGames.length === 0 ? (
+            <p>Não há jogos cadastrados ainda... Adicione-os e eles aparecerão aqui! 🕹️</p>
+          ) : (
+            <GameCardList gameList={userGames} direction='grid' />
+          )}
+
           <Button onClick={() => setPage(page + 1)} type={'moreResultsButton'}>
             MAIS
           </Button>

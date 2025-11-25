@@ -2,6 +2,7 @@ import { GameContext } from '@contexts/Game.context';
 import type {
   IGameByIDResponse,
   IGamesListResponse,
+  ITotalStatusUserResponse,
   IUserGamesResponse,
   TGameStatus
 } from '@interfaces/game.interface';
@@ -10,6 +11,7 @@ import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
 import type { AxiosResponse } from 'axios';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const GameProvider = ({ children }: IDefaultProviderProp) => {
   const [gameLoading, setGameLoading] = useState(false);
@@ -19,6 +21,7 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
   const [gameSearchValue, setGameSearchValue] = useState('');
   const [searchGamesResult, setSearchGamesResult] = useState<IGamesListResponse>([]);
   const [gameByID, setGameByID] = useState<IGameByIDResponse>({} as IGameByIDResponse);
+  const [totalGameStatusUser, setTotalGameStatusUser] = useState<ITotalStatusUserResponse[]>([]);
 
   const getPopularGames = async () => {
     setGameLoading(true);
@@ -63,14 +66,20 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const getUserGames = async (userID: string, page: number, limitPerPage: number) => {
+  const getUserGames = async (userID: string, page: number, limitPerPage: number, status?: string, search?: string) => {
     setGameLoading(true);
+    let url = `/profile/?userId=${userID}&page=${page}&limit=${limitPerPage}`;
+
+    if (status) url += `&status=${status}`;
+    if (search) url += `&search=${search}`;
     try {
-      const userGameResponse: AxiosResponse<IUserGamesResponse> = await api.get(
-        `/profile/?userId=${userID}&page=${page}&limit=${limitPerPage}`
-      );
+      const userGameResponse: AxiosResponse<IUserGamesResponse> = await api.get(url);
       const onlyGamesField = userGameResponse.data.data
-        .map((result) => result.game)
+        .map((result) => ({
+          userGameId: result.id,
+          note: result.note,
+          ...result.game
+        }))
         .sort((a, b) => a.name.localeCompare(b.name));
       setUserGames(onlyGamesField);
       console.log(userGameResponse);
@@ -96,11 +105,22 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     }
   };
 
-  const updateGameStatus = async (status: string, userGameID: string) => {
+  const getTotalStatusUser = async (userId: string) => {
+    try {
+      const status = await api.get(`/profile/total/status/user?userId=${userId}`);
+      setTotalGameStatusUser(status.data);
+    } catch (error) {
+      handleAxiosErrors(error);
+    }
+  };
+
+  const updateGameStatus = async (userGameID: string, status?: string, note?: string) => {
     console.log(status);
     try {
-      const gameStatusRespose = await api.put(`/profile/update/${userGameID}`, { status: status });
-      console.log(gameStatusRespose);
+      await api.put(`/profile/update/${userGameID}`, { status: status, note: note });
+      if (note) {
+        toast.success('Anotação atualizada com sucesso!');
+      }
     } catch (error) {
       handleAxiosErrors(error);
     }
@@ -152,7 +172,9 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
         deleteGameStatus,
         handleGameStatus,
         userGames,
-        setUserGames
+        setUserGames,
+        getTotalStatusUser,
+        totalGameStatusUser
       }}
     >
       {children}

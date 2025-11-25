@@ -12,5 +12,9 @@ export const AuthContext = createContext<ILoginContextProps>({
   userLoading: false,
   setUserdata: function (_value: SetStateAction<IGetUserDataResponse | null>): void {
     throw new Error('Function not implemented.');
+  },
+
+  handleLogout: function (): void {
+    throw new Error('Function not implemented.');
   }
 });

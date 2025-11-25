@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 const NavBar = () => {
   const navigate = useNavigate();
   const { gameSearchValue, setGameSearchValue } = useGames();
-  const { userData, userLoading } = useAuth();
+  const { userData, userLoading, handleLogout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScroll = useRef(0);
@@ -91,6 +91,10 @@ const NavBar = () => {
             >
               <CgProfile />
               <p>Perfil</p>
+
+              <div className='logout-dropdown'>
+                <p onClick={() => handleLogout()}>Logout</p>
+              </div>
             </NavItem>
           </NavLinks>
         </Nav>

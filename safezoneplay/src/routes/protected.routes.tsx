@@ -1,26 +1,23 @@
 import useAuth from '@hooks/useAuth';
-import { useEffect } from 'react';
-import { Outlet, Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 const ProtectedRoutes = () => {
   const { userData, userLoading } = useAuth();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (userLoading) return;
-    if (!userData) return;
-    console.log(userData);
-  }, [userLoading, userData]);
-
-  if (userData === null) {
+  if (userLoading) {
     return null;
   }
 
-  if (userData.email_verified === false) {
-    navigate('/verify-email');
+  if (!userData) {
+    return <Navigate to='/start/login' replace />;
   }
 
-  return userData ? <Outlet /> : <Navigate to='/start/login' />;
+  // DESCOMENTAR CASO QUEIRA TRAVAR E FORÇAR A VERIFICAÇÃO DE EMAIL DO USUÁRIO
+  // if (userData.email_verified === false) {
+  //   return <Navigate to='/verify-email' replace />;
+  // }
+
+  return <Outlet />;
 };
 
 export { ProtectedRoutes };

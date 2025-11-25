@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import LoginForm from '@components/Forms/LoginForm/LoginForm.component';
 import RegisterForm from '@components/Forms/RegisterForm/RegisterForm.component';
 import { Container } from '@styles/global';

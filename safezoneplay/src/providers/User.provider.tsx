@@ -3,12 +3,9 @@ import type { IDefaultProviderProp } from '@interfaces/providerProps.interface';
 import { type ICreateUser } from '@interfaces/users.interface';
 import { api } from '@services/api';
 import handleAxiosErrors from '@utils/axiosErrorStandard';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const UserProvider = ({ children }: IDefaultProviderProp) => {
-  const navigate = useNavigate();
-
   const createUser = async (data: ICreateUser) => {
     try {
       const formData = new FormData();

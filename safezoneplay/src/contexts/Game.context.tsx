@@ -41,7 +41,7 @@ export const GameContext = createContext<IGameContextProps>({
     throw new Error('Function not implemented.');
   },
 
-  updateGameStatus: function (_status: string, _userGameID: string): Promise<void> {
+  updateGameStatus: function (_userGameID: string, _status?: string, _note?: string): Promise<void> {
     throw new Error('Function not implemented.');
   },
 
@@ -59,7 +59,13 @@ export const GameContext = createContext<IGameContextProps>({
     throw new Error('Function not implemented.');
   },
 
-  getUserGames: function (_userID: string, _page: number, _limitPerPage: number): Promise<void> {
+  getUserGames: function (
+    _userID: string,
+    _page: number,
+    _limitPerPage: number,
+    _status?: string,
+    _search?: string
+  ): Promise<void> {
     throw new Error('Function not implemented.');
   },
 
@@ -67,5 +73,11 @@ export const GameContext = createContext<IGameContextProps>({
 
   setUserGames: function (_value: SetStateAction<IGamesListResponse>): void {
     throw new Error('Function not implemented.');
-  }
+  },
+
+  getTotalStatusUser: function (_userId: string): Promise<void> {
+    throw new Error('Function not implemented.');
+  },
+
+  totalGameStatusUser: []
 });

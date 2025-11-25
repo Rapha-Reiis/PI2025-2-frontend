@@ -192,14 +192,14 @@ export default function Perfil() {
 
                 <FavoriteCard>
                   <FavoriteImage
-                    onClick={() => navigate(`/game/${userData?.favoriteGame?.id ?? 3328}`)}
+                    onClick={() => navigate(`/game/${userData?.favorite_GameId ?? 3328}`)}
                     src={
-                      userData?.favoriteGame?.background ??
+                      userData?.favorite_url ??
                       'https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg'
                     }
                   />
 
-                  <FavoriteGameName>{userData?.favoriteGame?.name ?? 'The Witcher 3'}</FavoriteGameName>
+                  <FavoriteGameName>{userData?.favorite_name ?? 'The Witcher 3'}</FavoriteGameName>
                 </FavoriteCard>
               </FavoriteBox>
             </HeaderRight>
@@ -260,7 +260,10 @@ export default function Perfil() {
               <SelectWrapper>
                 <Select
                   value={reviewStatusFilter ?? ''}
-                  onChange={(e) => setReviewStatusFilter(e.target.value as 'DRAFT' | 'PUBLISHED' | '')}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setReviewStatusFilter(v === '' ? undefined : (v as 'DRAFT' | 'PUBLISHED'));
+                  }}
                 >
                   <option value=''>Ambos</option>
                   <option value='PUBLISHED'>Publicados</option>
@@ -343,7 +346,7 @@ export default function Perfil() {
                     </div>
                   )}
 
-                  <GameImage src={normalizeUrl(game.background_image ?? undefined)} />
+                  <GameImage src={normalizeUrl(game.background_image || '') ?? ''} />
                   <GameTitle>{game.name}</GameTitle>
                 </GameCard>
               ))}

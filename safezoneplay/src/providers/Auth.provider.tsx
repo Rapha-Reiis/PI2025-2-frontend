@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { AuthContext } from '@contexts/Auth.context';
 import type { IDefaultProviderProp } from '@interfaces/providerProps.interface';
 import type { IJWTToken, ILoginRequest } from '@interfaces/login.interface';

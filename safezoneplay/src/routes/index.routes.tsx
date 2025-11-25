@@ -15,14 +15,14 @@ const MainRoutes = () => {
       <Route index path='/' element={<Navigate to='/start/login' />} />
       <Route path='/start/:type' element={<StartPage />} />
 
-      <Route element={<ProtectedRoutes />}>
-        <Route element={<MainLayout />}>
-          <Route path='/home' element={<HomePage />} />
-          <Route path='/game/:id' element={<GamePage />} />
-          <Route path='/search/:value' element={<SearchResultPage />} />
+      <Route element={<MainLayout />}>
+        <Route path='/home' element={<HomePage />} />
+        <Route path='/verify-email' element={<VerifyEmailPage />} />
+        <Route path='/game/:id' element={<GamePage />} />
+        <Route path='/search/:value' element={<SearchResultPage />} />
+        <Route element={<ProtectedRoutes />}>
           <Route path='/premium' element={<PremiumPaymentPage />} />
           <Route path='/perfil' element={<Perfil />} />
-          <Route path='/verify-email' element={<VerifyEmailPage />} />
         </Route>
       </Route>
     </Routes>

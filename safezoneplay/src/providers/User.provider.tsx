@@ -26,6 +26,7 @@ const UserProvider = ({ children }: IDefaultProviderProp) => {
       await api.post('/users', formData);
 
       toast.success('Usuário criado!');
+      navigate('/start/login');
     } catch (error) {
       handleAxiosErrors(error);
     }

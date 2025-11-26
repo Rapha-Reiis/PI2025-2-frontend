@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import useAuth from '@hooks/useAuth';
 import {
   Avatar,
@@ -301,15 +302,15 @@ export default function Perfil() {
             <Loading />
           ) : (
             <CardsGrid ref={cardAreaRef}>
-              {userGames?.length === 0 && <span>Nenhum jogo encontrado</span>}
+              {userGames?.data.length === 0 && <span>Nenhum jogo encontrado</span>}
 
-              {userGames?.map((game) => (
-                <GameCard key={game.idGame} onClick={() => navigate(`/game/${game.idGame}`)}>
+              {userGames?.data?.map((game) => (
+                <GameCard key={game.game.idGame} onClick={() => navigate(`/game/${game.gameId}`)}>
                   <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }}>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setMenuOpenId(game.idGame);
+                        setMenuOpenId(game.gameId);
                       }}
                       style={{
                         background: 'transparent',
@@ -323,11 +324,11 @@ export default function Perfil() {
                     </button>
                   </div>
 
-                  {menuOpenId === game.idGame && (
+                  {menuOpenId === game.gameId && (
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        openNoteModal(game.userGameId!, game.note!);
+                        openNoteModal(game.userId!, game.note!);
                         setMenuOpenId(null);
                       }}
                       style={{
@@ -346,8 +347,8 @@ export default function Perfil() {
                     </div>
                   )}
 
-                  <GameImage src={normalizeUrl(game.background_image || '') ?? ''} />
-                  <GameTitle>{game.name}</GameTitle>
+                  <GameImage src={normalizeUrl(game.game.background_image || '') ?? ''} />
+                  <GameTitle>{game.game.name}</GameTitle>
                 </GameCard>
               ))}
             </CardsGrid>

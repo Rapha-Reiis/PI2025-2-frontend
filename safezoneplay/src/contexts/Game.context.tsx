@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { IGameByIDResponse, IGameContextProps, IGamesListResponse, TGameStatus } from '@interfaces/game.interface';
+import type { IGameByIDResponse, IGameContextProps, IUserGamesResponse, TGameStatus } from '@interfaces/game.interface';
 import { createContext, type SetStateAction } from 'react';
 
 export const GameContext = createContext<IGameContextProps>({
@@ -69,15 +69,15 @@ export const GameContext = createContext<IGameContextProps>({
     throw new Error('Function not implemented.');
   },
 
-  userGames: [],
-
-  setUserGames: function (_value: SetStateAction<IGamesListResponse>): void {
-    throw new Error('Function not implemented.');
-  },
-
   getTotalStatusUser: function (_userId: string): Promise<void> {
     throw new Error('Function not implemented.');
   },
 
-  totalGameStatusUser: []
+  totalGameStatusUser: [],
+
+  setUserGames: function (_value: SetStateAction<IUserGamesResponse>): void {
+    throw new Error('Function not implemented.');
+  },
+
+  userGames: {} as IUserGamesResponse
 });

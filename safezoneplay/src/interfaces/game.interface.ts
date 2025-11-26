@@ -172,16 +172,14 @@ export interface IUserGames {
   note: string | null;
   created_at: string;
   updated_at: string;
-
   game: Game;
-
-  totalGames: number;
-  totalPage: number;
-  currentPage: number;
 }
 
 export interface IUserGamesResponse {
   data: IUserGames[];
+  totalGames: number;
+  totalPage: number;
+  currentPage: number;
 }
 
 export interface IGameContextProps {
@@ -207,8 +205,8 @@ export interface IGameContextProps {
     userGameID: string | null,
     gameId: number
   ) => void;
-  userGames: IGamesListResponse;
-  setUserGames: React.Dispatch<React.SetStateAction<IGamesListResponse>>;
+  userGames: IUserGamesResponse;
+  setUserGames: React.Dispatch<React.SetStateAction<IUserGamesResponse>>;
   getTotalStatusUser: (userId: string) => Promise<void>;
   totalGameStatusUser: ITotalStatusUserResponse[];
 }

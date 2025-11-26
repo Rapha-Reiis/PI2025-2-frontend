@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 const GameProvider = ({ children }: IDefaultProviderProp) => {
   const [gameLoading, setGameLoading] = useState(false);
   const [popularGames, setPopularGames] = useState<IGamesListResponse>([]);
-  const [userGames, setUserGames] = useState<IGamesListResponse>([]);
+  const [userGames, setUserGames] = useState<IUserGamesResponse>({} as IUserGamesResponse);
 
   const [gameSearchValue, setGameSearchValue] = useState('');
   const [searchGamesResult, setSearchGamesResult] = useState<IGamesListResponse>([]);
@@ -74,15 +74,7 @@ const GameProvider = ({ children }: IDefaultProviderProp) => {
     if (search) url += `&search=${search}`;
     try {
       const userGameResponse: AxiosResponse<IUserGamesResponse> = await api.get(url);
-      const onlyGamesField = userGameResponse.data.data
-        .map((result) => ({
-          userGameId: result.id,
-          note: result.note,
-          ...result.game
-        }))
-        .sort((a, b) => a.name.localeCompare(b.name));
-      setUserGames(onlyGamesField);
-      console.log(userGameResponse);
+      setUserGames(userGameResponse.data);
     } catch (error) {
       handleAxiosErrors(error);
     } finally {

@@ -23,7 +23,7 @@ const HomePage = () => {
     if (!userData?.id) return;
 
     getUserGames(userData.id, page, 10);
-  }, [userLoading, userData]);
+  }, [userLoading, userData, page]);
 
   return (
     <StyledMain>
@@ -37,10 +37,10 @@ const HomePage = () => {
           <h2>Meu Jogos</h2>
           {gameLoading || userLoading ? (
             <Loading />
-          ) : userGames.length === 0 ? (
+          ) : userGames?.data?.length === 0 ? (
             <p>Não há jogos cadastrados ainda... Adicione-os e eles aparecerão aqui! 🕹️</p>
           ) : (
-            <GameCardList gameList={userGames} direction='grid' />
+            <GameCardList gameList={userGames?.data?.map((item) => item.game) ?? []} direction='grid' />
           )}
 
           <Button onClick={() => setPage(page + 1)} type={'moreResultsButton'}>

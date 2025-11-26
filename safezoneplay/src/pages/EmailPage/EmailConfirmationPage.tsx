@@ -32,8 +32,10 @@ export function VerifyEmailPage() {
     console.log('token:', token);
     if (!token) return;
 
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+
     try {
-      await axios.post('http://localhost:3000/auth/verify/email', { token });
+      await axios.post(`${baseUrl}/auth/verify/email`, { token });
       toast.success('Email confirmado com sucesso!');
     } catch (error) {
       handleAxiosErrors(error);

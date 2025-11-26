@@ -13,9 +13,9 @@ const ProtectedRoutes = () => {
   }
 
   // DESCOMENTAR CASO QUEIRA TRAVAR E FORÇAR A VERIFICAÇÃO DE EMAIL DO USUÁRIO
-  // if (userData.email_verified === false) {
-  //   return <Navigate to='/verify-email' replace />;
-  // }
+  if (userData.email_verified === false) {
+    return <Navigate to='/verify-email' replace />;
+  }
 
   return <Outlet />;
 };
